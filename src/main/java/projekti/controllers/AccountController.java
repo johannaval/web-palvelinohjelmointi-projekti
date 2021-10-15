@@ -1,6 +1,7 @@
-package projekti.account;
+package projekti.controllers;
 
-import projekti.account.Account;
+import projekti.services.AccountService;
+import projekti.entities.Account;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import projekti.entities.Account;
 
 @Controller
 public class AccountController {
@@ -33,6 +35,14 @@ public class AccountController {
         return "login_form";
     }
 
+    @GetMapping("/login_error")
+    public String loginErrorView(Model model) {
+
+        model.addAttribute("error_message", "Käyttäjänimi tai salasana on väärin");
+
+        return "login_form";
+    }
+
     @GetMapping("/index")
     public String indexView() {
 
@@ -47,13 +57,14 @@ public class AccountController {
     }
 
     @PostMapping("/registrations")
-    public String register(@Valid @ModelAttribute Account account, BindingResult bindingResult) {
+    public String register(@Valid @ModelAttribute Account account, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "registration_form";
         }
-
         if (accountService.getAccountByUsername(account.getUsername()) != null) {
+
+            model.addAttribute("error_message", "Voi rähmä, käyttäjänimi on jo varattu!");
             return "registration_form";
         }
         account.setPassword(passwordEncoder.encode(account.getPassword()));
@@ -61,18 +72,4 @@ public class AccountController {
 
         return "redirect:/login";
     }
-    /*
-    @PostMapping("/login")
-    public String login(@Valid @RequestParam String username, @RequestParam String password) {
-
-        Account account = accountService.getAccountByUsername(username);
-
-        if (account != null) {
-            if (account.getPassword().equals(password)) {
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return "index";
-            }
-        }
-        return "login_form";
-    }*/
 }

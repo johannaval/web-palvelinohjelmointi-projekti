@@ -21,6 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Ei päästetä käyttäjää mihinkään sovelluksen resurssiin ilman
@@ -35,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/index", true)
-                .failureUrl("/login?error=true");
+                .failureUrl("/login_error");
         //           .logout().permitAll();
     }
 

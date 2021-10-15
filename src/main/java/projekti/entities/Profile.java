@@ -1,4 +1,4 @@
-package projekti.profile;
+package projekti.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;

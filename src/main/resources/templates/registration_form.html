@@ -16,9 +16,10 @@
                     <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Virheviesti</td>
                 </tr>
                 <tr>
-                    <td>Käyttäjätunnus: </td>
+                    <td>Käyttäjänimi: </td>
                     <td><input type="text" th:field="*{username}" /></td>
                     <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Virheviesti</td>
+                    <td th:if="${error_message}!=null" th:text="${error_message}"></td>
                 </tr>
                 <tr>
                     <td>Profiilin tunnus: </td>

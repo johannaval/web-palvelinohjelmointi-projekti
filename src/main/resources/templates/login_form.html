@@ -12,6 +12,7 @@
                 <tr>
                     <td>Käyttäjätunnus</td>
                     <td><input id="username" type="text" name="username" value=""/></td>
+                    <td th:if="${error_message}!=null" th:text="${error_message}"></td>
                 </tr>
                 <tr>
                     <td>Salasana</td>
