@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>twitter2</title>
+    </head>
+    <body>
+        <h2>Accounts</h2>
+        <ol>
+            <li th:each="account : ${accounts}">
+                <span th:text="${account.username}">msg</span>
+                <span th:text="${account.name}">msg</span>
+                <span th:text="${account.profileName}">msg</span>
+            </li>
+        </ol>
+    </body>
+</html>

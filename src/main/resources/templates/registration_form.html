@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>twitter2</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <h1>Luo käyttäjä:</h1>
+        <form action="#" th:action="@{/registrations}" th:object="${account}" method="POST">
+            <table>
+                <tr>
+                    <td>Nimi: </td>
+                    <td><input type="text" th:field="*{name}" /></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Virheviesti</td>
+                </tr>
+                <tr>
+                    <td>Käyttäjätunnus: </td>
+                    <td><input type="text" th:field="*{username}" /></td>
+                    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Virheviesti</td>
+                </tr>
+                <tr>
+                    <td>Profiilin tunnus: </td>
+                    <td><input type="text" th:field="*{profileName}" /></td>
+                    <td th:if="${#fields.hasErrors('profileName')}" th:errors="*{profileName}">ProfileName Virheviesti</td>
+                </tr>
+                <tr>
+                    <td>Salasana: </td>
+                    <td><input type="text" th:field="*{password}" /></td>
+                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Virheviesti</td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Rekisteröidy</button></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

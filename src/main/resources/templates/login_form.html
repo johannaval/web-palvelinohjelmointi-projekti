@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>twitter2</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <h1>Kirjaudu sisään:</h1>
+        <form action="#" th:action="@{/login}" method="POST">
+            <table>
+                <tr>
+                    <td>Käyttäjätunnus</td>
+                    <td><input id="username" type="text" name="username" value=""/></td>
+                </tr>
+                <tr>
+                    <td>Salasana</td>
+                    <td><input id="password" type="password" name="password"/></td>
+                </tr>
+                <tr>
+                    <td><input name="submit" type="submit" value="Kirjaudu"/></td>
+                </tr>
+            </table>    
+        </form>
+    </body>
+</html>
