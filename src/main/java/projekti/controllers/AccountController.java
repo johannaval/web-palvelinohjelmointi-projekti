@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import projekti.entities.Account;
+import projekti.services.ProfileService;
 
 @Controller
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private ProfileService profileService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -43,12 +47,6 @@ public class AccountController {
         return "login_form";
     }
 
-    @GetMapping("/index")
-    public String indexView() {
-
-        return "index";
-    }
-
     @GetMapping("/accounts")
     public String list(Model model) {
 
@@ -67,8 +65,15 @@ public class AccountController {
             model.addAttribute("error_message", "Voi rähmä, käyttäjänimi on jo varattu!");
             return "registration_form";
         }
+        if (accountService.getAccountByProfileName(account.getProfileName()) != null) {
+
+            model.addAttribute("error_message", "Voi rähmä, profiilin tunnus on jo varattu!");
+            return "registration_form";
+        }
         account.setPassword(passwordEncoder.encode(account.getPassword()));
+        
         accountService.saveAccount(account);
+        profileService.saveProfile(account);
 
         return "redirect:/login";
     }

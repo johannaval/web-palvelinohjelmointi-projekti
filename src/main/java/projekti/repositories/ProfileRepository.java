@@ -1,10 +1,9 @@
 package projekti.repositories;
 
-import projekti.entities.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import projekti.entities.Profile;
 
-public interface ProfileRepository extends JpaRepository<Account, Long> {
+public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     Profile findByProfileName(String profileName);
 }

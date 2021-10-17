@@ -1,6 +1,7 @@
 package projekti.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,8 @@ public class Account extends AbstractPersistable<Long> {
 
     @Size(min = 3, max = 50, message = "Profiilin nimessä pitää olla 3-50 merkkiä")
     private String profileName;
+
+    @OneToOne
+    private Profile profile;
+
 }

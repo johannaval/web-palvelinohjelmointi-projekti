@@ -25,6 +25,8 @@
                     <td>Profiilin tunnus: </td>
                     <td><input type="text" th:field="*{profileName}" /></td>
                     <td th:if="${#fields.hasErrors('profileName')}" th:errors="*{profileName}">ProfileName Virheviesti</td>
+                    <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+
                 </tr>
                 <tr>
                     <td>Salasana: </td>

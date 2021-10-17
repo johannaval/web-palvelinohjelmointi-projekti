@@ -1,12 +1,57 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>twitter2</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
     </head>
     <body>
-        <h2>Käyttäjän profiili:</h2>
-        <em th:text="${account.username}">username</em>
+        <div><a th:href="@{/index}">Takaisin etusivulle </a></div>
+
+        <div th:if="${profilePhoto} != null">
+            <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"/>
+        </div>
+
+
+
+
+        <div th:if="${profile.account.username} == ${currentUser.username}">
+            <h2>Tervetuloa sinun profiiliin!</h2>
+
+            <p>Seuraajat: </p>
+
+
+
+            <ol>
+                <li th:each="follow : ${followers}">
+                    <p> Nimi: <span th:text="${follow.follower.account.name}">msg</span> </p>
+                    <p> Seurattu: <span th:text="${follow.time}">msg</span> </p>
+
+                    <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.follower.profileName})}" method="POST">
+                        <input type="submit" class="btn btn-primary btn-sm" value="Poista käyttäjä seuraajistasi"/>
+                    </form>
+                </li>
+            </ol> 
+            <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Oma kuvagalleria</a></div>
+
+        </div>
+
+
+        <div th:if="${profile.account.username} != ${currentUser.username}">
+            <h2>Tervetuloa käyttäjän: <span th:text="${profile.account.name}">nimi</span> profiiliin </h2>
+
+            <div th:if="${alreadyFollowing} == false">
+
+                <form th:action="@{/accounts/{profileName}/(profileName=${profile.profileName})}" method="POST">
+                    <input type="submit" class="btn btn-primary btn-sm" value="Seuraa käyttäjää"/>
+                </form>
+            </div>
+
+            <div th:if="${alreadyFollowing} == true">
+                <p>Seuraat jo kyseistä käyttäjää! </p>
+            </div>
+            <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Katso käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> kuvat</a></div>
+
+        </div>
     </body>
 </html>

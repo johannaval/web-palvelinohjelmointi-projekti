@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>twitter2</title>
+        <meta charset="UTF-8" />
+    </head>
+
+    <body>
+        <div th:if="${profile.account.username} != ${currentUser.username}">
+            <h2>Käyttäjän <span th:text="${profile.account.name}">name</span> kuvat:</h2>
+        </div>
+
+        <div th:if="${profile.account.username} == ${currentUser.username}">
+            <h2>Sinun kuvat:</h2>
+        </div>
+
+
+        <br/>
+        <div th:if="${current != null}">
+            <div th:if="${total_count > 0}">
+
+
+                <div th:if="${previous != null}">
+                    <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${previous})}">Edellinen kuva</a>
+                </div>
+                <div th:if="${next != null}">
+                    <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${next})}">Seuraava kuva</a>
+                </div>
+
+                <p>Kuva <span th:text="${current}">0</span> / <span th:text="${total_count}">10</span></p>
+
+                <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${current})}"/>
+
+                <p/>
+                <p>Kuvateksti: <span th:text="${caption}">caption</span> </p>
+
+                <br/>
+
+                
+                
+                <div th:if="${profile.account.username} == ${currentUser.username}">
+                    
+                    <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/setProfilePhoto(profileName=${profile.profileName}, number=${current})}" >
+                        <input type="submit" value="Lisää profiilikuvaksesi!"/>
+                    </form>
+                    
+
+                    <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/deletePhoto(profileName=${profile.profileName}, number=${current})}" >
+                        <input type="submit" value="Poista kuva!"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${total_count == 0}">
+            <h2> Ei vielä kuvia :( </h2>
+        </div>
+
+
+        <p/>
+        <p/>
+        <div th:if="${profile.account.username} == ${currentUser.username}">
+
+            <div th:if="${photoGalleryFull} == true">
+                <p>Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi"</p>
+            </div>
+
+
+            <div th:if="${photoGalleryFull} == false">
+                <br/>
+                <br/>
+
+                <h3>Lisää uusi kuva:</h3>
+
+                <form method="POST" th:action="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}" enctype="multipart/form-data">
+                    <input type="file" name="file" id="file"/>
+                    <p/>
+
+                    <p>Kuvateksti: <input type="text" name="caption" id="caption"/></p>
+
+                    <input type="submit" value="Lisää!"/>
+                    <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+
+                </form>
+            </div>
+        </div>
+
+
+        <br/>
+        <div th:if="${profile.account.username} == ${currentUser.username}">
+            <div><a th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin profiiliisi</a></div>
+        </div>
+
+        <div th:if="${profile.account.username} != ${currentUser.username}">
+            <div><a th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> profiiliin</a></div>
+        </div>
+        <p/>
+        <p/>
+    </body>
+</html>
