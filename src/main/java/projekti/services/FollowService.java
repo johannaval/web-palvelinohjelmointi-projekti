@@ -15,10 +15,7 @@ public class FollowService {
 
     public Boolean findByFollowerAndFollowing(Profile follower, Profile following) {
 
-        System.out.println("!!!!!!!!!!!!11");
-        System.out.println(followRepository.findByFollowerAndFollowing(follower, following));
-
-        if (followRepository.findByFollowerAndFollowing(follower, following).size()!=0) {
+        if (followRepository.findByFollowerAndFollowing(follower, following).size()>0) {
             return true;
         }
         return false;
@@ -34,7 +31,7 @@ public class FollowService {
         List<Follow> follows = followRepository.findByFollowing(following);
 
         for (Follow follow : follows) {
-            if (follow.getFollowing().equals(following)) {
+            if (follow.getFollower().equals(follower)) {
                 return follow;
             }
         }

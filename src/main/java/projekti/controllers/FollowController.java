@@ -30,8 +30,6 @@ public class FollowController {
     @PostMapping("/accounts/{profileName}/")
     public String followProfile(@PathVariable String profileName) {
 
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-
         Profile following = profileService.findByProfileName(profileName);
         Profile follower = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
 
@@ -50,19 +48,14 @@ public class FollowController {
 
 
     @PostMapping("/accounts/{profileName}/delete_follower/{profileName_to_delete}")
-    public String deleteFollow(@PathVariable String profileName_to_delete, @PathVariable String profileName) {
+    public String deleteFollow(@PathVariable String profileName, @PathVariable String profileName_to_delete) {
         
-        System.out.println("täällä ?");
         Profile following = profileService.findByProfileName(profileName);
         Profile follower = profileService.findByProfileName(profileName_to_delete);
 
-        System.out.println("tääl????");
         Follow follow_to_delete = followService.getFollow(following, follower);
-
         followService.delete(follow_to_delete);
         
-        System.out.println(":D tääl?");
-
         return "redirect:/accounts/{profileName}";
 
     }

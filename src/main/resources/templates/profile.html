@@ -18,9 +18,9 @@
         <div th:if="${profile.account.username} == ${currentUser.username}">
             <h2>Tervetuloa sinun profiiliin!</h2>
 
+            <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
+
             <p>Seuraajat: </p>
-
-
 
             <ol>
                 <li th:each="follow : ${followers}">
@@ -39,6 +39,9 @@
 
         <div th:if="${profile.account.username} != ${currentUser.username}">
             <h2>Tervetuloa käyttäjän: <span th:text="${profile.account.name}">nimi</span> profiiliin </h2>
+
+            <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
+
 
             <div th:if="${alreadyFollowing} == false">
 
