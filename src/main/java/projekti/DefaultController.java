@@ -11,6 +11,6 @@ public class DefaultController {
     @GetMapping("*")
     public String doDefaultRedirect() {
 
-        return "redirect:/registrations";
+        return "redirect:/login";
     }
 }

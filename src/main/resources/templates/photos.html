@@ -37,14 +37,41 @@
 
                 <br/>
 
-                
-                
+                <p/>
+                <p>Tykkäykset: <span th:text="${likeCount}">likeCount</span> </p>
+                <br/>
+
+                <div th:if="${!liked}">
+                    <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/like(profileName=${profile.profileName}, number=${current})}" >
+                        <input type="submit" value="Tykkää!"/>
+                    </form>
+                </div>
+
+                <div th:if="${liked}">
+                    <p>Olet tykännyt tästä kuvasta! </p>
+                </div>
+
+                <ol>
+                    <li th:each="comment : ${comments}">
+                        <span th:text="${comment.profile.account.name}">name</span>
+                        <span th:text="${comment.content}">name</span>
+                    </li>
+                </ol>
+
+                <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/comment(profileName=${profile.profileName}, number=${current})}" >
+                    <p>Kommentti: <input type="text" name="comment" id="comment"/></p>
+                    <input type="submit" value="Kommentoi!"/>
+                </form>
+
+
+
+
                 <div th:if="${profile.account.username} == ${currentUser.username}">
-                    
+
                     <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/setProfilePhoto(profileName=${profile.profileName}, number=${current})}" >
                         <input type="submit" value="Lisää profiilikuvaksesi!"/>
                     </form>
-                    
+
 
                     <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/deletePhoto(profileName=${profile.profileName}, number=${current})}" >
                         <input type="submit" value="Poista kuva!"/>

@@ -1,6 +1,7 @@
 package projekti.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import javax.tools.FileObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import projekti.entities.Account;
 import projekti.entities.Photo;
+import projekti.entities.PhotoComment;
+import projekti.entities.PhotoLike;
 import projekti.entities.Profile;
 import projekti.services.AccountService;
+import projekti.services.PhotoCommentService;
+import projekti.services.PhotoLikeService;
 import projekti.services.PhotoService;
 import projekti.services.ProfileService;
 
@@ -25,7 +30,13 @@ public class PhotoController {
     PhotoService photoService;
 
     @Autowired
+    PhotoLikeService photoLikeService;
+
+    @Autowired
     ProfileService profileService;
+
+    @Autowired
+    PhotoCommentService photoCommentService;
 
     @Autowired
     AccountService accountService;
@@ -76,11 +87,24 @@ public class PhotoController {
             model.addAttribute("caption", photoService.getPhotoFromProfile(profileService.findByProfileName(profileName), number).getCaption());
         }
 
-        model.addAttribute("profile", profileService.getProfileByProfileName(profileName));
+        Profile profile = profileService.getProfileByProfileName(profileName);
+        Account currentUser = accountService.getCurrentUser();
+        Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
+
+        Photo photo = photoService.getPhotoFromProfile(profileService.findByProfileName(profileName), number);
+        List<PhotoLike> likes = photoLikeService.getPhotoLikesByPhoto(photo);
+        List<PhotoComment> comments = photoCommentService.getPhotoCommentsByPhoto(photo);
+
+        Boolean liked = photoLikeService.alreadyLiked(photo, currentUserProfile);
+
+        model.addAttribute("liked", liked);
+        model.addAttribute("likeCount", likes.size());
+        model.addAttribute("comments", comments);
+
+        model.addAttribute("profile", profile);
         model.addAttribute("previous", previous);
         model.addAttribute("next", next);
-        model.addAttribute("currentUser", accountService.getCurrentUser());
-
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("current", number);
         model.addAttribute("total_count", numberOfImages);
 

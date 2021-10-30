@@ -74,20 +74,20 @@ public class ProfileController {
         return "profile";
     }
 
-    @GetMapping("/index")
+    @GetMapping("/findProfile")
     public String indexView(Model model) {
 
         model.addAttribute("currentUser", accountService.getCurrentUser());
-        return "index";
+        return "findProfiles";
     }
 
-    @GetMapping("/index/seach")
+    @GetMapping("/findProfile/seach")
     public String indexView(Model model, @RequestParam String name) {
 
         model.addAttribute("profiles", profileService.findProfilesByName(name));
         model.addAttribute("currentUser", accountService.getCurrentUser());
 
-        return "index";
+        return "findProfiles";
     }
 
     /*

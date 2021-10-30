@@ -1,0 +1,32 @@
+<html>
+
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <title>twitter2</title>
+            <meta charset="UTF-8" />
+        </head>
+
+        <body>
+            <div><a th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiiliisi </a></div>
+
+            <h1>Etsi käyttäjiä:</h1>
+            <form action="#" th:action="@{/findProfile/seach}" method="GET"> 
+                <form>
+                    <input type="text" name="name"/>
+                    <input type="submit" value="Etsi!"/>
+                </form>
+
+
+                <ol>
+                    <li th:each="profile : ${profiles}">
+                        <span th:text="${profile.account.name}">name</span>
+
+
+                        <form th:action="@{/accounts/{profileName}(profileName=${profile.account.profileName})}" method="GET">
+                            <input type="submit" value="Näytä profiili"/>
+                        </form>
+                        </div>
+                    </li>
+                </ol>
+        </body>
+    </html>
