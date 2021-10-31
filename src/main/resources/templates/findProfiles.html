@@ -55,11 +55,13 @@
 
                                 <ul class="list-group">
                                     <li class="list-group-item" th:each="profile : ${profiles}">
-                                        <h6> Nimi: <span th:text="${profile.account.name}">name</span></h6>
+                                        
+                                        <h6> Nimi: <span th:text="${profile.account.name}">name</span></h6> 
+                                        
                                         <h6> Käyttäjänimi: <span th:text="${profile.account.username}">username</span></h6>
                                         <h6> Profiilin tunnus: <span th:text="${profile.account.profileName}">profileName</span></h6>
 
-                                        <p></p>
+                                        <p></p> 
                                         <form th:action="@{/accounts/{profileName}(profileName=${profile.account.profileName})}" method="GET">
                                             <input type="submit" class="btn btn-dark" value="Näytä profiili"/>
                                         </form>

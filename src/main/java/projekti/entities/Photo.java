@@ -20,7 +20,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Entity
 public class Photo extends AbstractPersistable<Long> {
 
-    @Lob
+   // @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] content;
 
