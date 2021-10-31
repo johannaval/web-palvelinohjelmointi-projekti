@@ -22,9 +22,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public class Photo extends AbstractPersistable<Long> {
 
     // @Lob
-    @Lob
-    @Type(type = "org.hibernate.type.PrimitiveByteArrayBlobType")
-    @Basic(fetch = FetchType.LAZY)
+    // @Basic(fetch = FetchType.LAZY)
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] content;
 
     @ManyToOne
