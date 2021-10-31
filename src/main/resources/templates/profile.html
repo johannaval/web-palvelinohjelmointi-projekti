@@ -11,17 +11,29 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/index}">Etusivu</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi <span class="sr-only">(current)</span></a>
-                        </li> 
-                        <li class="nav-item">
+
+                        <div th:if="${profile.account.username} == ${currentUser.username}">                        
+                            <li class="nav-item active px-3">
+                                <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi <span class="sr-only">(current)</span></a>
+                            </li> 
+                        </div>
+
+                        <div th:if="${profile.account.username} != ${currentUser.username}">                        
+                            <li class="nav-item px-3">
+                                <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi</a>
+                            </li> 
+
+                        </div>
+
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria</a>
-                        </li>  
-                        <li class="nav-item">
+                        </li> 
+
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä</a>
                         </li>   
                     </ul>
@@ -32,9 +44,7 @@
 
 
 
-        <body>
-            <br>
-            </br>
+        <body style="background-color:lightslategrey;">
             <br>
             </br>
 
@@ -42,64 +52,71 @@
 
                 <div class="starter-template">
 
-                    <div class="card">
-                        <img class="card-img-top" src="..." alt="Card image cap">
-                            <div th:if="${profilePhoto} != null">
-                                <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"/>
+                    <div class="card bg-light mb-3" style="width: 95%" >
+                        <div class="card-body">
+
+
+
+                            <div th:if="${profile.account.username} == ${currentUser.username}">
+                                <h1>Tervetuloa sinun profiiliin!</h1>
                             </div>
-                    </div>
+
+                            <div th:if="${profile.account.username} != ${currentUser.username}">
+                                <h1>Tervetuloa käyttäjän <span th:text="${profile.account.name}">nimi</span> profiiliin </h1>
+                            </div>
+
+                            <div th:if="${profilePhoto} != null">
+                                <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"   
+                                     width="200" height="200" style="border: #000000 6px outset" />
+                            </div>
 
 
+                            <div th:if="${profile.account.username} == ${currentUser.username}">
 
-                    <div th:if="${profilePhoto} != null">
-                        <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"/>
-                    </div>
+                                <p></p>
 
+                                <h4> Seuraajia: <span th:text="${number_of_followers}">msg</span> </h4>
 
-
-
-                    <div th:if="${profile.account.username} == ${currentUser.username}">
-                        <h2>Tervetuloa sinun profiiliin!</h2>
-
-                        <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
-
-                        <p>Seuraajat: </p>
-
-                        <ol>
-                            <li th:each="follow : ${followers}">
-                                <p> Nimi: <span th:text="${follow.follower.account.name}">msg</span> </p>
-                                <p> Seurattu: <span th:text="${follow.time}">msg</span> </p>
-
-                                <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.follower.profileName})}" method="POST">
-                                    <input type="submit" class="btn btn-primary btn-sm" value="Poista käyttäjä seuraajistasi"/>
-                                </form>
-                            </li>
-                        </ol> 
-                        <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Oma kuvagalleria</a></div>
-
-                    </div>
+                                <h4>Seuraajat: </h4>
 
 
-                    <div th:if="${profile.account.username} != ${currentUser.username}">
-                        <h2>Tervetuloa käyttäjän: <span th:text="${profile.account.name}">nimi</span> profiiliin </h2>
+                                <ul class="list-group">
+                                    <li class="list-group-item" th:each="follow : ${followers}">
+                                        <footer class="blockquote-footer"> Nimi: <span th:text="${follow.follower.account.name}">name</span></cite></footer>
+                                        <footer class="blockquote-footer"> Seurattu: <span th:text="${follow.time}">date</span></cite></footer>
+                                        <p></p>
+                                        <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.follower.profileName})}" method="POST">
+                                            <input type="submit" class="btn btn-dark" value="Poista käyttäjä seuraajistasi"/>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
 
-                        <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
+
+                            <div th:if="${profile.account.username} != ${currentUser.username}">
+                                <br></br>
+
+                                <h4> Seuraajia: <span th:text="${number_of_followers}">followers</span> </h4>
 
 
-                        <div th:if="${alreadyFollowing} == false">
+                                <div th:if="${alreadyFollowing} == false">
 
-                            <form th:action="@{/accounts/{profileName}/(profileName=${profile.profileName})}" method="POST">
-                                <input type="submit" class="btn btn-primary btn-sm" value="Seuraa käyttäjää"/>
-                            </form>
+                                    <form th:action="@{/accounts/{profileName}/(profileName=${profile.profileName})}" method="POST">
+                                        <input type="submit" class="btn btn-dark" value="Seuraa käyttäjää"/>
+                                    </form>
+                                </div>
+
+                                <div th:if="${alreadyFollowing} == true">
+                                    <h4>Seuraat käyttäjää! </h4>
+                                </div>
+
+                                <br></br>
+                                <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Katso käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> kuvat</a></div>
+
+                            </div>
                         </div>
 
-                        <div th:if="${alreadyFollowing} == true">
-                            <p>Seuraat jo kyseistä käyttäjää! </p>
-                        </div>
-                        <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Katso käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> kuvat</a></div>
-
                     </div>
-
                 </div>
             </div>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>            

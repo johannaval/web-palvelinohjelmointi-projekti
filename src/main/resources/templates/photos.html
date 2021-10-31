@@ -11,17 +11,31 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/index}">Etusivu</a>
                         </li>
-                        <li class="nav-item">
+
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi </a>
                         </li> 
-                        <li class="nav-item active">
-                            <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria <span class="sr-only">(current)</span></a>
-                        </li>  
-                        <li class="nav-item">
+
+
+                        <div th:if="${profile.account.username} == ${currentUser.username}">                        
+                            <li class="nav-item active px-3">
+                                <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria <span class="sr-only">(current)</span></a>
+                            </li> 
+                        </div>
+
+                        <div th:if="${profile.account.username} != ${currentUser.username}">                        
+                            <li class="nav-item px-3">
+                                <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria</a>
+                            </li> 
+                        </div>
+
+
+
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä</a>
                         </li>   
                     </ul>
@@ -30,124 +44,168 @@
             </nav>   
         </body>
 
-        <body>
-            <div th:if="${profile.account.username} != ${currentUser.username}">
-                <h2>Käyttäjän <span th:text="${profile.account.name}">name</span> kuvat:</h2>
-            </div>
+        <body style="background-color:lightslategrey;">
 
-            <div th:if="${profile.account.username} == ${currentUser.username}">
-                <h2>Sinun kuvat:</h2>
-            </div>
+            <br>
+            </br>
+
+            <div class="container">
+
+                <div class="starter-template">
+                    <div th:if="${current != null}">
+
+                        <div class="card bg-light mb-3" style="width: 95%" >
+                            <div class="card-body">
+
+                                <div th:if="${total_count > 0}">
 
 
-            <br/>
-            <div th:if="${current != null}">
-                <div th:if="${total_count > 0}">
+                                    <div th:if="${profile.account.username} != ${currentUser.username}">
+                                        <h2>Käyttäjän <span th:text="${profile.account.name}">name</span> kuvat:</h2>
+                                    </div>
+
+                                    <div th:if="${profile.account.username} == ${currentUser.username}">
+                                        <h1>Sinun kuvat:</h1>
+                                    </div>
 
 
-                    <div th:if="${previous != null}">
-                        <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${previous})}">Edellinen kuva</a>
+
+
+                                    <div th:if="${previous != null}">
+                                        <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${previous})}">Edellinen kuva</a>
+                                    </div>
+                                    <div th:if="${next != null}">
+                                        <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${next})}">Seuraava kuva</a>
+                                    </div>
+
+                                    <p>Kuva <span th:text="${current}">0</span> / <span th:text="${total_count}">10</span></p>
+
+                                    <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${current})}"
+                                         width="400" height="400" style="border: #000000 3px outset"/>
+
+                                    <p/>
+                                    <h6>Kuvateksti: <span th:text="${caption}">caption</span> </h6>
+                                    <p/>
+                                    <h6>Tykkäykset: <span th:text="${likeCount}">likeCount</span> </h6>
+                                    <br/>
+
+                                    <div th:if="${!liked}">
+                                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/like(profileName=${profile.profileName}, number=${current})}" >
+                                            <input type="submit" class="btn btn-dark" value="Tykkää!"/>
+                                        </form>
+                                    </div>
+
+                                    <div th:if="${liked}">
+                                        <p>Olet tykännyt tästä kuvasta! </p>
+                                    </div>
+
+                                    <div th:if="${profile.account.username} == ${currentUser.username}">
+
+                                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/setProfilePhoto(profileName=${profile.profileName}, number=${current})}" >
+                                            <input type="submit" class="btn btn-dark" value="Lisää profiilikuvaksesi!"/>
+                                        </form>
+
+
+                                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/deletePhoto(profileName=${profile.profileName}, number=${current})}" >
+                                            <input type="submit" class="btn btn-dark" value="Poista kuva!"/>
+                                        </form>
+                                    </div>
+
+                                    <h4 class="card-title"><p> Kommentit:</p></h4>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" th:each="comment : ${comments}">
+                                            <h4 class="card-title"><p> <span th:text="${comment.content}">content</span></p></h4>
+
+                                            <footer class="blockquote-footer"> Lähettäjä: <span th:text="${comment.profile.account.name}">name</span></cite></footer>
+                                            <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.date}">date</span></cite></footer>
+                                        </li>
+                                    </ul>
+
+                                    <br></br>
+                                    <h4>Kommentoi:</h4>
+
+                                    <div class="form-group">
+                                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/comment(profileName=${profile.profileName}, number=${current})}" >
+                                            <form>
+                                                <textarea type="text" name="comment" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+                                                <p></p>
+                                                <input type="submit" class="btn btn-dark"value="Lähetä"/>
+                                            </form>
+                                        </form>
+                                    </div>
+
+
+
+                                </div>
+                                <div th:if="${profile.account.username} == ${currentUser.username}">
+                                    <div th:if="${total_count == 0}">
+                                        <h2>Lisää kuvia kuva-albumiisi</h2>
+                                        <p>Voit valita niistä jonkun profiilikuvaksesi!</p>
+                                    </div>
+                                </div>
+
+
+
+                                <div th:if="${profile.account.username} != ${currentUser.username}">
+                                    <div th:if="${total_count == 0}">
+                                        <h2>Äh! Käyttäjä <span th:text="${profile.account.name}">name</span> ei ole vielä lisännyt kuvia! :(</h2>
+                                    </div>
+                                    <div><a th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> profiiliin</a></div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    <div th:if="${next != null}">
-                        <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${next})}">Seuraava kuva</a>
-                    </div>
 
-                    <p>Kuva <span th:text="${current}">0</span> / <span th:text="${total_count}">10</span></p>
-
-                    <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${current})}"/>
 
                     <p/>
-                    <p>Kuvateksti: <span th:text="${caption}">caption</span> </p>
-
-                    <br/>
-
                     <p/>
-                    <p>Tykkäykset: <span th:text="${likeCount}">likeCount</span> </p>
-                    <br/>
 
-                    <div th:if="${!liked}">
-                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/like(profileName=${profile.profileName}, number=${current})}" >
-                            <input type="submit" value="Tykkää!"/>
-                        </form>
-                    </div>
-
-                    <div th:if="${liked}">
-                        <p>Olet tykännyt tästä kuvasta! </p>
-                    </div>
-
-                    <ol>
-                        <li th:each="comment : ${comments}">
-                            <span th:text="${comment.profile.account.name}">name</span>
-                            <span th:text="${comment.content}">name</span>
-                        </li>
-                    </ol>
-
-                    <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/comment(profileName=${profile.profileName}, number=${current})}" >
-                        <p>Kommentti: <input type="text" name="comment" id="comment"/></p>
-                        <input type="submit" value="Kommentoi!"/>
-                    </form>
-
-
+                    <br></br>
 
 
                     <div th:if="${profile.account.username} == ${currentUser.username}">
 
-                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/setProfilePhoto(profileName=${profile.profileName}, number=${current})}" >
-                            <input type="submit" value="Lisää profiilikuvaksesi!"/>
-                        </form>
+                        <div class="card bg-light mb-3" style="width: 95%" >
+                            <div class="card-body"></div>
 
+                            <div style="padding:20px;">
 
-                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/deletePhoto(profileName=${profile.profileName}, number=${current})}" >
-                            <input type="submit" value="Poista kuva!"/>
-                        </form>
+                                <div th:if="${photoGalleryFull} == true">
+                                    <p>Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi"</p>
+                                </div>
+
+                                <div th:if="${photoGalleryFull} == false">
+
+                                    <h2 class="card-title"><p> Lisää uusi kuva:</p></h2>
+
+                                    <form method="POST" th:action="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}" enctype="multipart/form-data">
+                                        <input type="file" class="btn btn-light" name="file" id="file"/>
+                                        <p/>
+
+                                        <h6>Kuvateksti:</h6>
+                                        <textarea type="text" name="caption" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+                                        <p></p>
+                                        <input type="submit" class="btn btn-dark" value="Lisää!"/>
+                                        <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div th:if="${total_count == 0}">
-                <h2> Ei vielä kuvia :( </h2>
-            </div>
-
-
-            <p/>
-            <p/>
-            <div th:if="${profile.account.username} == ${currentUser.username}">
-
-                <div th:if="${photoGalleryFull} == true">
-                    <p>Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi"</p>
-                </div>
-
-
-                <div th:if="${photoGalleryFull} == false">
-                    <br/>
-                    <br/>
-
-                    <h3>Lisää uusi kuva:</h3>
-
-                    <form method="POST" th:action="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}" enctype="multipart/form-data">
-                        <input type="file" name="file" id="file"/>
-                        <p/>
-
-                        <p>Kuvateksti: <input type="text" name="caption" id="caption"/></p>
-
-                        <input type="submit" value="Lisää!"/>
-                        <td th:if="${error_message}!=null" th:text="${error_message}"></td>
-
-                    </form>
-                </div>
-            </div>
-
-
             <br/>
-            <div th:if="${profile.account.username} == ${currentUser.username}">
-                <div><a th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin profiiliisi</a></div>
+
+
+            <p/>
+            <p/>
+
+
             </div>
 
-            <div th:if="${profile.account.username} != ${currentUser.username}">
-                <div><a th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> profiiliin</a></div>
             </div>
-            <p/>
-            <p/>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>            
         </body>
 

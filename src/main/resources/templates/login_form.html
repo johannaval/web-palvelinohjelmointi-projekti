@@ -1,29 +1,69 @@
-<!DOCTYPE HTML>
+<html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>twitter2</title>
-        <meta charset="UTF-8" />        
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>        
-    </head>
-    <body>
-        <h1>Kirjaudu sisään:</h1>
-        <form action="#" th:action="@{/login}" method="POST">
-            <table>
-                <tr>
-                    <td>Käyttäjätunnus</td>
-                    <td><input id="username" type="text" name="username" value=""/></td>
-                    <td th:if="${error_message}!=null" th:text="${error_message}"></td>
-                </tr>
-                <tr>
-                    <td>Salasana</td>
-                    <td><input id="password" type="password" name="password"/></td>
-                </tr>
-                <tr>
-                    <td><input name="submit" type="submit" value="Kirjaudu"/></td>
-                </tr>
-            </table>    
-        </form>
-    </body>
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <title>twitter2</title>
+            <meta charset="UTF-8" /> 
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">                    
+        </head>
+
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item active px-3">
+                            <a class="nav-link" th:href="@{/login}">Kirjaudu sisään <span class="sr-only">(current)</span></a>
+                        </li>   
+                        <li class="nav-item px-3">
+                            <a class="nav-link" th:href="@{/registrations}">Rekisteröidy </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>   
+        </body>
+
+
+
+        <body style="background-color:lightslategrey;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3 col-md-4 col-lg-7 mx-auto">
+                        <div class="card border-0 shadow rounded-3 my-5">
+                            <div class="card-body p-4 p-sm-5">
+                                <h2>Kirjaudu sisään</h2>
+
+                                <div class="card bg-light mb-3" style="min-width: 35rem;">
+                                    <div class="card-body">
+
+                                        <form action="#" th:action="@{/login}" method="POST">
+
+                                            <h5 class="card-title">Käyttäjänimi:</h5>
+                                            <td><input id="username" type="text" name="username" value=""/></td>
+                                            <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+
+                                            <h5 class="card-title">Salasana:</h5>
+                                            <td><input id="password" type="password" name="password"/></td>
+
+                                            <br></br>
+
+                                            <td><input name="submit" class="btn btn-dark" type="submit" value="Kirjaudu"/></td>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>            
+        </body>
+
+    </html>
 </html>

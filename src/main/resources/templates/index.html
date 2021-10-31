@@ -11,17 +11,18 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
+                    <ul class="navbar-nav mx-auto">    
+                                                
+                        <li class="nav-item active px-3">
                             <a class="nav-link" th:href="@{/index}">Etusivu <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi</a>
                         </li> 
-                        <li class="nav-item">
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria</a>
                         </li>  
-                        <li class="nav-item">
+                        <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä</a>
                         </li>   
                     </ul>
@@ -31,46 +32,55 @@
         </body>
 
 
-        <body>
-            <br>
-            </br>
+        <body style="background-color:lightslategrey;">
             <br>
             </br>
 
             <div class="container">
 
                 <div class="starter-template">
-                    <h1>Hei  <span th:text="${currentUser.account.name}">nimi</span>, hauskaa että olet täällä taas! </h1>
-                    <p class="lead">Tämän sovelluksen avulla pysyt perillä siitä, mitä ystäväsi puuhaavat! </p>
 
-                    <div th:if="${profilePhoto} != null">
-                        <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${currentUser.profileName}, number=${profilePhoto})}"/>
-                    </div>
+                    <div class="card bg-light mb-3" style="width: 95%" >
+                        <div class="card-body">
 
 
+                            <h1>Hei  <span th:text="${currentUser.account.name}">nimi</span>, hauskaa että olet täällä taas! </h1>
+                            <p class="lead">Tämän sovelluksen avulla pysyt perillä siitä, mitä ystäväsi puuhaavat! </p>
 
-                    <h3>Lähetä viesti:</h3>
+                            <div th:if="${profilePhoto} != null">
+                                <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${currentUser.profileName}, number=${profilePhoto})}"
+                                     width="200" height="200" style="border: #000000 3px outset"/>
+                            </div>
 
-                    <div class="form-group">
-                        <form action="#" th:action="@{/index}" method="POST"> 
-                            <form>
-                                <textarea type="text" name="content" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                <p></p>
-                                <input type="submit" class="btn btn-dark"value="Lähetä"/>
-                            </form>
-                        </form>
+
+
+
+                            <p></p>
+                            <h3>Lähetä viesti:</h3>
+
+                            <div class="form-group">
+                                <form action="#" th:action="@{/index}" method="POST"> 
+                                    <form>
+                                        <textarea type="text" name="content" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        <p></p>
+                                        <input type="submit" class="btn btn-dark"value="Lähetä"/>
+                                    </form>
+                                </form>
+                            </div>
+
+                        </div>
                     </div>
 
                     <br>
+
                         <h2>Viestit: </h2>
                         <br>
 
-
-                            <ol>
+                            <ul style="list-style: none; padding-left: 0px">
                                 <li th:each="message : ${messages}">
 
 
-                                    <div class="card">
+                                    <div class="card bg-light mb-3" style="width: 95%" >
                                         <div class="card-body">
                                             <h3 class="card-title"><p> <span th:text="${message.content}">content</span></p></h3>
                                             <footer class="blockquote-footer">Lähettäjä: <span th:text="${message.profile.account.name}">name</span></cite></footer>
@@ -112,7 +122,7 @@
                                     <br></br>
 
                                 </li>
-                            </ol>
+                            </ul>
 
                             </div>
 

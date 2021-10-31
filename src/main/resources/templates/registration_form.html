@@ -1,44 +1,89 @@
-<!DOCTYPE HTML>
+<html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <title>twitter2</title>
+            <meta charset="UTF-8" /> 
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">                    
+        </head>
 
-    <head>
-        <title>twitter2</title>
-        <meta charset="UTF-8" />        
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>        
-    </head>
-    <body>
-        <h1>Luo käyttäjä:</h1>
-        <form action="#" th:action="@{/registrations}" th:object="${account}" method="POST">
-            <table>
-                <tr>
-                    <td>Nimi: </td>
-                    <td><input type="text" th:field="*{name}" /></td>
-                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Virheviesti</td>
-                </tr>
-                <tr>
-                    <td>Käyttäjänimi: </td>
-                    <td><input type="text" th:field="*{username}" /></td>
-                    <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Virheviesti</td>
-                    <td th:if="${error_message}!=null" th:text="${error_message}"></td>
-                </tr>
-                <tr>
-                    <td>Profiilin tunnus: </td>
-                    <td><input type="text" th:field="*{profileName}" /></td>
-                    <td th:if="${#fields.hasErrors('profileName')}" th:errors="*{profileName}">ProfileName Virheviesti</td>
-                    <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-                </tr>
-                <tr>
-                    <td>Salasana: </td>
-                    <td><input type="text" th:field="*{password}" /></td>
-                    <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Virheviesti</td>
-                </tr>
-                <tr>
-                    <td><button type="submit">Rekisteröidy</button></td>
-                </tr>
-            </table>
-        </form>
-    </body>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item px-3">
+                            <a class="nav-link" th:href="@{/login}">Kirjaudu sisään</a>
+                        </li>   
+                        <li class="nav-item active px-3">
+                            <a class="nav-link" th:href="@{/registrations}">Rekisteröidy <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>   
+        </body>
+
+
+        <body style="background-color:lightslategrey;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3 col-md-4 col-lg-7 mx-auto">
+                        <div class="card border-0 shadow rounded-3 my-5">
+                            <div class="card-body p-4 p-sm-5">
+                                <h2>Luo käyttäjä</h2>
+
+                                <div class="card bg-light mb-3" style="min-width: 35rem;">
+                                    <div class="card-body">
+
+                                        <form action="#" th:action="@{/registrations}" th:object="${account}" method="POST">
+
+                                            <tr>
+                                                <h5 class="card-title">Nimi:</h5>
+                                                <td><input type="text" th:field="*{name}" /></td>
+                                                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Virheviesti</td>
+                                            </tr>
+
+                                            <tr>
+                                                <h5 class="card-title">Käyttäjänimi:</h5>
+                                                <td><input type="text" th:field="*{username}" /></td>
+                                                <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Virheviesti</td>
+                                                <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <h5 class="card-title">Profiilin tunnus:</h5>
+                                                <td><input type="text" th:field="*{profileName}" /></td>
+                                                <td th:if="${#fields.hasErrors('profileName')}" th:errors="*{profileName}">ProfileName Virheviesti</td>
+                                                <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+
+                                            </tr>
+
+                                            <tr>
+                                            <h5 class="card-title">Salasana:</h5>
+                                                <td><input type="text" th:field="*{password}" /></td>
+                                                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Virheviesti</td>
+                                            </tr>
+
+
+                                            <br></br>
+
+                                            <td><input name="submit" class="btn btn-dark" type="submit" value="Rekisteröidy"/></td>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>            
+        </body>
+
+    </html>
 </html>
