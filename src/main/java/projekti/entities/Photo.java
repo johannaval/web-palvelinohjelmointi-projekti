@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import java.util.List;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -20,13 +21,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Entity
 public class Photo extends AbstractPersistable<Long> {
 
-   // @Lob
+    // @Lob
+    @Lob
+    @Type(type = "org.hibernate.type.PrimitiveByteArrayBlobType")
     @Basic(fetch = FetchType.LAZY)
     private byte[] content;
 
     @ManyToOne
     private Profile profile;
-    
+
     private Boolean profilePhoto;
 
     private Integer number;
