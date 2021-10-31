@@ -53,6 +53,8 @@ public class MessageCommentController {
         
         // eli ongelma, nyt tulostuu KAIKKI kyseisen messagen kommentit, ei rajaa vain viimeiset 10, sekä tulostuu vääräs järkässä.
         // jos käytän järjestämistä eli ilman message.comments, vaan pelkkä comments, niin sillon ne viestit sekoittuu.
+        // ei katota, onko jo tykänyt viestistä, voi tykätä monta kertaa vain.
+        // kommentit voi olla tyhjiä
 
 
         return "redirect:/index/" + id;

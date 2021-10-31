@@ -1,60 +1,109 @@
-<!DOCTYPE HTML>
+<html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>twitter2</title>
-        <meta charset="UTF-8" />
-    </head>
-    <body>
-        <div><a th:href="@{/index}">Takaisin etusivulle </a></div>
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <title>twitter2</title>
+            <meta charset="UTF-8" /> 
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">                    
+        </head>
 
-        <div th:if="${profilePhoto} != null">
-            <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"/>
-        </div>
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/index}">Etusivu</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi <span class="sr-only">(current)</span></a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria</a>
+                        </li>  
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä</a>
+                        </li>   
+                    </ul>
 
-
-
-        <div th:if="${profile.account.username} == ${currentUser.username}">
-            <h2>Tervetuloa sinun profiiliin!</h2>
-
-            <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
-
-            <p>Seuraajat: </p>
-
-            <ol>
-                <li th:each="follow : ${followers}">
-                    <p> Nimi: <span th:text="${follow.follower.account.name}">msg</span> </p>
-                    <p> Seurattu: <span th:text="${follow.time}">msg</span> </p>
-
-                    <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.follower.profileName})}" method="POST">
-                        <input type="submit" class="btn btn-primary btn-sm" value="Poista käyttäjä seuraajistasi"/>
-                    </form>
-                </li>
-            </ol> 
-            <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Oma kuvagalleria</a></div>
-
-        </div>
+                </div>
+            </nav>   
+        </body>
 
 
-        <div th:if="${profile.account.username} != ${currentUser.username}">
-            <h2>Tervetuloa käyttäjän: <span th:text="${profile.account.name}">nimi</span> profiiliin </h2>
 
-            <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
+        <body>
+            <br>
+            </br>
+            <br>
+            </br>
+
+            <div class="container">
+
+                <div class="starter-template">
+
+                    <div class="card">
+                        <img class="card-img-top" src="..." alt="Card image cap">
+                            <div th:if="${profilePhoto} != null">
+                                <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"/>
+                            </div>
+                    </div>
 
 
-            <div th:if="${alreadyFollowing} == false">
 
-                <form th:action="@{/accounts/{profileName}/(profileName=${profile.profileName})}" method="POST">
-                    <input type="submit" class="btn btn-primary btn-sm" value="Seuraa käyttäjää"/>
-                </form>
+                    <div th:if="${profilePhoto} != null">
+                        <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"/>
+                    </div>
+
+
+
+
+                    <div th:if="${profile.account.username} == ${currentUser.username}">
+                        <h2>Tervetuloa sinun profiiliin!</h2>
+
+                        <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
+
+                        <p>Seuraajat: </p>
+
+                        <ol>
+                            <li th:each="follow : ${followers}">
+                                <p> Nimi: <span th:text="${follow.follower.account.name}">msg</span> </p>
+                                <p> Seurattu: <span th:text="${follow.time}">msg</span> </p>
+
+                                <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.follower.profileName})}" method="POST">
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Poista käyttäjä seuraajistasi"/>
+                                </form>
+                            </li>
+                        </ol> 
+                        <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Oma kuvagalleria</a></div>
+
+                    </div>
+
+
+                    <div th:if="${profile.account.username} != ${currentUser.username}">
+                        <h2>Tervetuloa käyttäjän: <span th:text="${profile.account.name}">nimi</span> profiiliin </h2>
+
+                        <p> Seuraajia: <span th:text="${number_of_followers}">msg</span> </p>
+
+
+                        <div th:if="${alreadyFollowing} == false">
+
+                            <form th:action="@{/accounts/{profileName}/(profileName=${profile.profileName})}" method="POST">
+                                <input type="submit" class="btn btn-primary btn-sm" value="Seuraa käyttäjää"/>
+                            </form>
+                        </div>
+
+                        <div th:if="${alreadyFollowing} == true">
+                            <p>Seuraat jo kyseistä käyttäjää! </p>
+                        </div>
+                        <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Katso käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> kuvat</a></div>
+
+                    </div>
+
+                </div>
             </div>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>            
+        </body>
 
-            <div th:if="${alreadyFollowing} == true">
-                <p>Seuraat jo kyseistä käyttäjää! </p>
-            </div>
-            <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Katso käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> kuvat</a></div>
-
-        </div>
-    </body>
+    </html>
 </html>

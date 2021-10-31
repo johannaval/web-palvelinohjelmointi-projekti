@@ -3,11 +3,34 @@
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
         <head>
             <title>twitter2</title>
-            <meta charset="UTF-8" />
+            <meta charset="UTF-8" /> 
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">                    
         </head>
 
         <body>
-            <div><a th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiiliisi </a></div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/index}">Etusivu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria</a>
+                        </li>  
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä <span class="sr-only">(current)</span></a>
+                        </li>   
+                    </ul>
+
+                </div>
+            </nav>   
+        </body>
+
+        <body>
 
             <h1>Etsi käyttäjiä:</h1>
             <form action="#" th:action="@{/findProfile/seach}" method="GET"> 
