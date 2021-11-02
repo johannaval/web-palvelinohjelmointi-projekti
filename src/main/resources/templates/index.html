@@ -44,6 +44,7 @@
 
                 <div class="starter-template">
 
+
                     <div class="card bg-light mb-3" style="width: 95%" >
                         <div class="card-body">
 
@@ -57,14 +58,13 @@
                             </div>
 
 
+                            <div th:if="${profilePhoto} == null">
+                                <img src="https://www.iptc.org/wp-content/uploads/2018/05/avatar-anonymous-300x300.png" width="200" height="200" style="border: #000000 3px outset">
+                            </div>                                
 
 
                             <p></p>
                             <h3>Lähetä viesti:</h3>
-
-
-
-
 
                             <div class="form-group">
                                 <form th:action="@{/index}" th:object="${message}" method="POST"> 
