@@ -64,11 +64,8 @@ public class ProfileController {
         if (profilePhoto != null) {
             model.addAttribute("profilePhoto", profilePhoto.getNumber());
         }
-
-        if (currentUser.getProfileName().equals(profileName)) {
-            model.addAttribute("followers", followers);
-            model.addAttribute("following", following);
-        }
+        model.addAttribute("followers", followers);
+        model.addAttribute("following", following);
 
         if (followService.findByFollowerAndFollowing(currentUserProfile, profile)) {
             model.addAttribute("alreadyFollowing", true);

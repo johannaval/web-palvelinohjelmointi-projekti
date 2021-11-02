@@ -35,7 +35,7 @@
             </nav>   
         </body>
 
-        <body style="background-color:lightslategrey;">
+        <body background="https://images.unsplash.com/photo-1494319827402-c4b839aed26b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80" style="background-size: cover; background-attachment: fixed;">  
 
             <br>
             </br>
@@ -47,10 +47,9 @@
                     <div class="card bg-light mb-3" style="width: 95%" >
                         <div class="card-body">
 
-
-
-                            <h1>Etsi käyttäjiä:</h1>
-                            <p>Täällä voit etsiä käyttäjiä nimen perusteella</p>
+                            <h1 style="font-family: 'Times New Roman'">Etsi käyttäjiä:</h1>
+                            <p style="font-family:'Courier New'">Täällä voit etsiä käyttäjiä nimen perusteella</p>
+                            
                             <form action="#" th:action="@{/findProfile/seach}" method="GET"> 
                                 <form>
                                     <input type="text" name="name"/>
@@ -61,10 +60,10 @@
                                 <ul class="list-group">
                                     <li class="list-group-item" th:each="profile : ${profiles}">
 
-                                        <h6> Nimi: <span th:text="${profile.account.name}">name</span></h6> 
+                                        <h6 style="font-family: 'Times New Roman'"> Nimi: <span th:text="${profile.account.name}">name</span></h6> 
 
-                                        <h6> Käyttäjänimi: <span th:text="${profile.account.username}">username</span></h6>
-                                        <h6> Profiilin tunnus: <span th:text="${profile.account.profileName}">profileName</span></h6>
+                                        <h6 style="font-family: 'Times New Roman'"> Käyttäjänimi: <span th:text="${profile.account.username}">username</span></h6>
+                                        <h6 style="font-family: 'Times New Roman'"> Profiilin tunnus: <span th:text="${profile.account.profileName}">profileName</span></h6>
 
                                         <p></p> 
                                         <form th:action="@{/accounts/{profileName}(profileName=${profile.account.profileName})}" method="GET">

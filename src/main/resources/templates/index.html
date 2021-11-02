@@ -36,121 +36,122 @@
         </body>
 
 
-        <body style="background-color:lightslategrey;">
-            <br>
-            </br>
-            
-            <div class="container">
+        <body background="https://images.unsplash.com/photo-1494319827402-c4b839aed26b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80" style="background-size: cover; background-attachment: fixed;">  
 
-                <div class="starter-template">
+                <br>
+                </br>
 
+                <div class="container">
 
-                    <div class="card bg-light mb-3" style="width: 95%" >
-                        <div class="card-body">
+                    <div class="starter-template">
 
 
-                            <h1>Hei  <span th:text="${currentUser.account.name}">nimi</span>, hauskaa että olet täällä taas! </h1>
-                            <p class="lead">Tämän sovelluksen avulla pysyt perillä siitä, mitä ystäväsi puuhaavat! </p>
+                        <div class="card bg-light mb-3" style="width: 95%" >
+                            <div class="card-body">
 
-                            <div th:if="${profilePhoto} != null">
-                                <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${currentUser.profileName}, number=${profilePhoto})}"
-                                     width="200" height="200" style="border: #000000 3px outset"/>
-                            </div>
+                                                       
+                                <h1 style="font-family: 'Times New Roman'">Hei  <span th:text="${currentUser.account.name}">nimi</span>, hauskaa että olet täällä taas! </h1>
+                                <p style="font-family:'Courier New'">Tämän sovelluksen avulla pysyt perillä siitä, mitä ystäväsi puuhaavat! </p>
+
+                                <div th:if="${profilePhoto} != null">
+                                    <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${currentUser.profileName}, number=${profilePhoto})}"
+                                         width="200" height="200" style="border: #000000 3px outset"/>
+                                </div>
 
 
-                            <div th:if="${profilePhoto} == null">
-                                <img src="https://www.iptc.org/wp-content/uploads/2018/05/avatar-anonymous-300x300.png" width="200" height="200" style="border: #000000 3px outset">
-                            </div>                                
+                                <div th:if="${profilePhoto} == null">
+                                    <img src="https://www.iptc.org/wp-content/uploads/2018/05/avatar-anonymous-300x300.png" width="200" height="200" style="border: #000000 3px outset">
+                                </div>                                
 
 
-                            <p></p>
-                            <h3>Lähetä viesti:</h3>
+                                <p></p>
+                                <h4 style="font-family: 'Times New Roman'">Lähetä viesti:</h4>
 
-                            <div class="form-group">
-                                <form th:action="@{/index}" th:object="${message}" method="POST"> 
-                                    <form>
-                                        <textarea type="text" th:field="*{content}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                        <td th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content Virheviesti</td>                                        
+                                <div class="form-group">
+                                    <form th:action="@{/index}" th:object="${message}" method="POST"> 
+                                        <form>
+                                            <textarea type="text" th:field="*{content}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            <td th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content Virheviesti</td>                                        
 
-                                        <p></p>
-                                        <input type="submit" class="btn btn-dark"value="Lähetä"/>
+                                            <p></p>
+                                            <input type="submit" class="btn btn-dark"value="Lähetä"/>
+                                        </form>
                                     </form>
-                                </form>
+                                </div>
+
                             </div>
-
                         </div>
-                    </div>
 
-                    <br>
-
-                        <h2>Viestit: </h2>
                         <br>
 
-                            <ul style="list-style: none; padding-left: 0px">
-                                <li th:each="message : ${messages}">
+                            <h2 style="font-family: 'Times New Roman'">Viestit: </h2>
+                            <br>
+
+                                <ul style="list-style: none; padding-left: 0px">
+                                    <li th:each="message : ${messages}">
 
 
-                                    <div class="card bg-light mb-3" style="width: 95%" >
-                                        <div class="card-body">
-                                            <h3 class="card-title"><p> <span th:text="${message.content}">content</span></p></h3>
-                                            <footer class="blockquote-footer">Lähettäjä: <span th:text="${message.profile.account.name}">name</span></cite></footer>
-                                            <footer class="blockquote-footer">Tykkäykset: <span th:text="${message.likeCount}">likes</span></cite></footer>
-                                            <footer class="blockquote-footer">Päiväys: <span th:text="${message.dateString}">date</span></cite></footer>
+                                        <div class="card bg-light mb-3" style="width: 95%" >
+                                            <div class="card-body">
+                                                <h3 class="card-title"><p style="font-family: 'Times New Roman'"> <span th:text="${message.content}">content</span></p></h3>
+                                                <footer class="blockquote-footer">Lähettäjä: <span th:text="${message.profile.account.name}">name</span></cite></footer>
+                                                <footer class="blockquote-footer">Tykkäykset: <span th:text="${message.likeCount}">likes</span></cite></footer>
+                                                <footer class="blockquote-footer">Päiväys: <span th:text="${message.dateString}">date</span></cite></footer>
 
-                                            <p></p>
-                                            <p></p>
+                                                <p></p>
+                                                <p></p>
 
-                                            <div th:if="${message.liked} == false">
-                                                <form method="POST" th:action="@{/index/{id}/like(id=${message.id})}" >
-                                                    <input type="submit" class="btn btn-dark" value="Tykkää!"/>
-                                                </form>
-                                            </div>
-
-                                            <div th:if="${message.liked}">
-                                                <p>Olet tykännyt tästä viestistä!</p>
-                                            </div>
-
-                                            <br></br>
-                                            <h4 class="card-title"><p> Kommentit:</p></h4>
-                                            <ul class="list-group">
-                                                <li class="list-group-item" th:each="comment : ${message.comments}">
-                                                    <h4 class="card-title"><p> <span th:text="${comment.commentContent}">content</span></p></h4>
-
-                                                    <footer class="blockquote-footer"> Lähettäjä: <span th:text="${comment.profile.account.name}">name</span></cite></footer>
-                                                    <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.dateString}">dateString</span></cite></footer>
-                                                </li>
-                                            </ul>
-
-                                            <br></br>
-                                            <h4>Kommentoi:</h4>
-
-
-                                            <div class="form-group">
-                                                <form method="POST" th:action="@{/index/{id}/comment/(id=${message.id})}" >
-                                                    <form>
-                                                        <textarea type="text" name="commentContent" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
-                                                        <p></p>
-                                                        <input type="submit" class="btn btn-dark"value="Lähetä"/>
+                                                <div th:if="${message.liked} == false">
+                                                    <form method="POST" th:action="@{/index/{id}/like(id=${message.id})}" >
+                                                        <input type="submit" class="btn btn-dark" value="Tykkää!"/>
                                                     </form>
-                                                </form>
+                                                </div>
+
+                                                <div th:if="${message.liked}">
+                                                    <p style="font-family: 'Times New Roman'">Olet tykännyt tästä viestistä!</p>
+                                                </div>
+
+                                                <br></br>
+                                                <h4 class="card-title" style="font-family: 'Times New Roman'"><p> Kommentit:</p></h4>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item" th:each="comment : ${message.comments}">
+                                                        <h4 class="card-title"><p style="font-family: 'Times New Roman'"> <span th:text="${comment.commentContent}">content</span></p></h4>
+
+                                                        <footer class="blockquote-footer"> Lähettäjä: <span th:text="${comment.profile.account.name}">name</span></cite></footer>
+                                                        <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.dateString}">dateString</span></cite></footer>
+                                                    </li>
+                                                </ul>
+
+                                                <br></br>
+                                                <h4 style="font-family: 'Times New Roman'">Kommentoi:</h4>
+
+
+                                                <div class="form-group">
+                                                    <form method="POST" th:action="@{/index/{id}/comment/(id=${message.id})}" >
+                                                        <form>
+                                                            <textarea type="text" name="commentContent" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
+                                                            <p></p>
+                                                            <input type="submit" class="btn btn-dark"value="Lähetä"/>
+                                                        </form>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <br></br>
+                                        <br></br>
 
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
 
-                            </div>
+                                </div>
 
-                            </div><!-- /.container -->
-
+                                </div><!-- /.container -->
 
 
 
 
 
-                            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>                            </body>
 
-                            </html>
-                            </html>
+                                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>                            </body>
+
+                                </html>
+                                </html>

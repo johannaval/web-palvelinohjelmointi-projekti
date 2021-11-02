@@ -49,7 +49,7 @@
 
 
 
-        <body style="background-color:lightslategrey;">
+        <body background="https://images.unsplash.com/photo-1494319827402-c4b839aed26b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80" style="background-size: cover; background-attachment: fixed;">  
             <br>
             </br>
 
@@ -61,62 +61,74 @@
                         <div class="card-body">
 
 
-
                             <div th:if="${profile.account.username} == ${currentUser.username}">
-                                <h1>Tervetuloa sinun profiiliin!</h1>
+                                <h1 style="font-family: 'Times New Roman'">Tervetuloa sinun profiiliin!</h1>
+                                <p style="font-family:'Courier New'">Täällä näet, ketkä kaikki seuraavat sinua, sekä ketä sinä seuraat! </p>
+
                             </div>
 
                             <div th:if="${profile.account.username} != ${currentUser.username}">
-                                <h1>Tervetuloa käyttäjän <span th:text="${profile.account.name}">nimi</span> profiiliin </h1>
+                                <h1 style="font-family: 'Times New Roman'">Tervetuloa käyttäjän <span th:text="${profile.account.name}">nimi</span> profiiliin </h1>
+                                <p style="font-family:'Courier New'">Täällä näet, ketkä käyttäjää <span th:text="${profile.account.name}">nimi</span> seuraa, sekä ketä häntä seuraa! </p>
                             </div>
 
                             <div th:if="${profilePhoto} != null">
                                 <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${profilePhoto})}"   
-                                     width="200" height="200" style="border: #000000 6px outset" />
+                                     width="200" height="200" style="border: #000000 3px outset" />
                             </div>
 
+                            <div th:if="${profilePhoto} == null">
+                                <img src="https://www.iptc.org/wp-content/uploads/2018/05/avatar-anonymous-300x300.png" width="200" height="200" style="border: #000000 3px outset">
+                            </div>    
+                            <p></p>
 
-                            <div th:if="${profile.account.username} == ${currentUser.username}">
+                            <h4 style="font-family: 'Times New Roman'">Seuraajat: (<span th:text="${number_of_followers}">followers</span>kpl)</h4>
 
-                                <p></p>
+                            <ul class="list-group">
+                                <li class="list-group-item" th:each="follow : ${followers}">
+                                    <footer class="blockquote-footer"> Nimi: <span th:text="${follow.follower.account.name}">name</span></cite></footer>
+                                    <footer class="blockquote-footer"> Seurattu: <span th:text="${follow.time}">time</span></cite></footer>
+                                    <p></p>
+
+                                    <form th:action="@{/accounts/{profileName}(profileName=${follow.follower.account.profileName})}" method="GET">
+                                        <input type="submit" class="btn btn-dark" value="Näytä käyttäjän profiili"/>
+                                    </form>
 
 
-                                <h4>Seuraajat: (<span th:text="${number_of_followers}">followers</span>kpl)</h4>
-
-                                <ul class="list-group">
-                                    <li class="list-group-item" th:each="follow : ${followers}">
-                                        <footer class="blockquote-footer"> Nimi: <span th:text="${follow.follower.account.name}">name</span></cite></footer>
-                                        <footer class="blockquote-footer"> Seurattu: <span th:text="${follow.time}">date</span></cite></footer>
-                                        <p></p>
+                                    <div th:if="${profile.account.username} == ${currentUser.username}">
                                         <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.follower.profileName})}" method="POST">
-                                            <input type="submit" class="btn btn-dark" value="Poista käyttäjä seuraajistasi"/>
+                                            <input type="submit" class="btn btn-light" value="Poista käyttäjä seuraajistasi"/>
                                         </form>
-                                    </li>
-                                </ul>
+                                    </div>
 
-                                <p></p>
-                                <h4>Seuraat: (<span th:text="${number_of_following}">following</span>kpl)</h4>
+                                </li>
+                            </ul>
+
+                            <p></p>
+                            <h4 style="font-family: 'Times New Roman'">Seuratut: (<span th:text="${number_of_following}">following</span>kpl)</h4>
 
 
-                                <ul class="list-group">
-                                    <li class="list-group-item" th:each="follow : ${following}">
-                                        <footer class="blockquote-footer"> Nimi: <span th:text="${follow.following.account.name}">name</span></cite></footer>
-                                        <footer class="blockquote-footer"> Seurattu: <span th:text="${follow.time}">date</span></cite></footer>
-                                        <p></p>
+                            <ul class="list-group">
+                                <li class="list-group-item" th:each="follow : ${following}">
+                                    <footer class="blockquote-footer"> Nimi: <span th:text="${follow.following.account.name}">name</span></cite></footer>
+                                    <footer class="blockquote-footer"> Seurattu: <span th:text="${follow.time}">time</span></cite></footer>
+                                    <p></p>
+
+                                    <form th:action="@{/accounts/{profileName}(profileName=${follow.following.account.profileName})}" method="GET">
+                                        <input type="submit" class="btn btn-dark" value="Näytä käyttäjän profiili"/>
+                                    </form>
+
+                                    <div th:if="${profile.account.username} == ${currentUser.username}">
                                         <form th:action="@{/accounts/{profileName}/delete_following/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.following.profileName})}" method="POST">
-                                            <input type="submit" class="btn btn-dark" value="Lopeta seuraaminen"/>
+                                            <input type="submit" class="btn btn-light" value="Lopeta seuraaminen"/>
                                         </form>
-                                    </li>
-                                </ul>
-                            </div>
+                                    </div>
+                                </li>
+                            </ul>
 
 
                             <div th:if="${profile.account.username} != ${currentUser.username}">
                                 <br></br>
-
-                                <h6> Seuraajia: <span th:text="${number_of_followers}">followers</span> </h6>
-                                <h6> Seuraa: <span th:text="${number_of_following}">following</span> </h6>
-
 
                                 <div th:if="${alreadyFollowing} == false">
 
@@ -126,7 +138,7 @@
                                 </div>
 
                                 <div th:if="${alreadyFollowing} == true">
-                                    <h4>Seuraat käyttäjää! </h4>
+                                    <h4 style="font-family: 'Times New Roman'">Seuraat käyttäjää! </h4>
                                 </div>
 
                                 <br></br>
@@ -134,9 +146,10 @@
 
                             </div>
                         </div>
-
                     </div>
+
                 </div>
+            </div>
             </div>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>        </body>
 

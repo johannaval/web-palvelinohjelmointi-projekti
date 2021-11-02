@@ -39,7 +39,7 @@
                             <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä</a>
                         </li>   
                     </ul>
-                    
+
                     <ul class="navbar-nav float-md-right">                   
                         <li class="nav-item px-3" style="padding-right: 30px">
                             <a class="nav-link" th:href="@{/logout}">Kirjaudu ulos</a>
@@ -50,7 +50,7 @@
             </nav>   
         </body>
 
-        <body style="background-color:lightslategrey;">
+        <body background="https://images.unsplash.com/photo-1494319827402-c4b839aed26b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80" style="background-size: cover; background-attachment: fixed;">  
 
             <br>
             </br>
@@ -65,34 +65,39 @@
 
                                 <div th:if="${total_count > 0}">
 
+                        
+
 
                                     <div th:if="${profile.account.username} != ${currentUser.username}">
-                                        <h2>Käyttäjän <span th:text="${profile.account.name}">name</span> kuvat:</h2>
+                                        <h1 style="font-family: 'Times New Roman'">Käyttäjän <span th:text="${profile.account.name}">name</span> kuvat:</h1>
                                     </div>
 
                                     <div th:if="${profile.account.username} == ${currentUser.username}">
-                                        <h1>Sinun kuvat:</h1>
+                                        <h1 style="font-family: 'Times New Roman'">Sinun kuvat:</h1>
                                     </div>
+                                    <p></p>
+                                    <p></p>
 
 
 
 
                                     <div th:if="${previous != null}">
-                                        <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${previous})}">Edellinen kuva</a>
+                                        <a style="font-family:'Courier New'" th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${previous})}">Edellinen kuva</a>
                                     </div>
                                     <div th:if="${next != null}">
-                                        <a th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${next})}">Seuraava kuva</a>
+                                        <a style="font-family:'Courier New'" th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${next})}">Seuraava kuva</a>
                                     </div>
+                                    <p></p>
 
-                                    <p>Kuva <span th:text="${current}">0</span> / <span th:text="${total_count}">10</span></p>
+                                    <h4 style="font-family: 'Times New Roman'">Kuva <span th:text="${current}">0</span> / <span th:text="${total_count}">10</span></h4>
 
                                     <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${current})}"
                                          width="400" height="400" style="border: #000000 3px outset"/>
 
                                     <p/>
-                                    <h6>Kuvateksti: <span th:text="${caption}">caption</span> </h6>
+                                    <h5 style="font-family: 'Times New Roman'">Kuvateksti: <span th:text="${caption}">caption</span> </h5>
                                     <p/>
-                                    <h6>Tykkäykset: <span th:text="${likeCount}">likeCount</span> </h6>
+                                    <h5 style="font-family: 'Times New Roman'">Tykkäykset: <span th:text="${likeCount}">likeCount</span> </h5>
                                     <br/>
 
                                     <div th:if="${!liked}">
@@ -102,7 +107,7 @@
                                     </div>
 
                                     <div th:if="${liked}">
-                                        <p>Olet tykännyt tästä kuvasta! </p>
+                                        <p style="font-family: 'Times New Roman'">Olet tykännyt tästä kuvasta! </p>
                                     </div>
 
                                     <div th:if="${profile.account.username} == ${currentUser.username}">
@@ -114,14 +119,14 @@
                                         </div>
 
                                         <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/deletePhoto(profileName=${profile.profileName}, number=${current})}" >
-                                            <input type="submit" class="btn btn-dark" value="Poista kuva!"/>
+                                            <input type="submit" class="btn btn-light" value="Poista kuva!"/>
                                         </form>
                                     </div>
 
-                                    <h4 class="card-title"><p> Kommentit:</p></h4>
+                                    <h4 class="card-title" style="font-family: 'Times New Roman'"><p> Kommentit:</p></h4>
                                     <ul class="list-group">
                                         <li class="list-group-item" th:each="comment : ${comments}">
-                                            <h4 class="card-title"><p> <span th:text="${comment.content}">content</span></p></h4>
+                                            <h4 class="card-title"><p style="font-family: 'Times New Roman'"> <span th:text="${comment.content}">content</span></p></h4>
 
                                             <footer class="blockquote-footer"> Lähettäjä: <span th:text="${comment.profile.account.name}">name</span></cite></footer>
                                             <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.dateString}">dateString</span></cite></footer>
@@ -129,7 +134,7 @@
                                     </ul>
 
                                     <br></br>
-                                    <h4>Kommentoi:</h4>
+                                    <h4 style="font-family: 'Times New Roman'">Kommentoi:</h4>
 
                                     <div class="form-group">
                                         <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/comment(profileName=${profile.profileName}, number=${current})}" >
@@ -146,7 +151,7 @@
                                 </div>
                                 <div th:if="${profile.account.username} == ${currentUser.username}">
                                     <div th:if="${total_count == 0}">
-                                        <h2>Lisää kuvia kuva-albumiisi</h2>
+                                        <h2 style="font-family: 'Times New Roman'">Lisää kuvia kuva-albumiisi</h2>
                                         <p>Voit valita niistä jonkun profiilikuvaksesi!</p>
                                     </div>
                                 </div>
@@ -155,9 +160,9 @@
 
                                 <div th:if="${profile.account.username} != ${currentUser.username}">
                                     <div th:if="${total_count == 0}">
-                                        <h2>Äh! Käyttäjä <span th:text="${profile.account.name}">name</span> ei ole vielä lisännyt kuvia! :(</h2>
+                                        <h2 style="font-family: 'Times New Roman'">Äh! Käyttäjä <span th:text="${profile.account.name}">name</span> ei ole vielä lisännyt kuvia! :(</h2>
                                     </div>
-                                    <div><a th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> profiiliin</a></div>
+                                    <div><a style="font-family: 'Times New Roman'" th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> profiiliin</a></div>
                                 </div>
                             </div>
 
@@ -179,18 +184,18 @@
                             <div style="padding:20px;">
 
                                 <div th:if="${photoGalleryFull} == true">
-                                    <h6>Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi</h6>
+                                    <h6 style="font-family: 'Times New Roman'">Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi</h6>
                                 </div>
 
                                 <div th:if="${photoGalleryFull} == false">
 
-                                    <h2 class="card-title"><p> Lisää uusi kuva:</p></h2>
+                                    <h3 class="card-title"><p style="font-family: 'Times New Roman'"> Lisää uusi kuva:</p></h3>
 
                                     <form method="POST" th:action="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}" enctype="multipart/form-data">
                                         <input type="file" class="btn btn-light" name="file" id="file"/>
                                         <p/>
 
-                                        <h6>Kuvateksti:</h6>
+                                        <h6 style="font-family: 'Times New Roman'">Kuvateksti:</h6>
                                         <textarea type="text" name="caption" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
                                         <p></p>
                                         <input type="submit" class="btn btn-dark" value="Lisää!"/>
@@ -212,7 +217,6 @@
 
             </div>
 
-            </div>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>        </body>
 
     </html>
