@@ -1,17 +1,24 @@
 package projekti.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projekti.entities.Account;
+import projekti.entities.Follow;
 import projekti.entities.Message;
 import projekti.entities.MessageComment;
 import projekti.entities.Photo;
 import projekti.entities.PhotoComment;
 import projekti.entities.Profile;
 import projekti.services.AccountService;
+import projekti.services.FollowService;
 import projekti.services.MessageCommentService;
 import projekti.services.MessageService;
 import projekti.services.PhotoCommentService;
@@ -33,9 +40,14 @@ public class MessageCommentController {
     @Autowired
     AccountService accountService;
 
-    @PostMapping("/index/{id}/comment")
-    public String addComment(@PathVariable Long id, String comment) {
+    @Autowired
+    PhotoService photoService;
 
+    @Autowired
+    FollowService followService;
+
+    @PostMapping("/index/{id}/comment")
+    public String addComment(Model model, @PathVariable Long id, String commentContent) {
 
         Message message = messageService.findMessageById(id);
 
@@ -47,16 +59,14 @@ public class MessageCommentController {
         MessageComment messageComment = new MessageComment();
         messageComment.setMessage(message);
         messageComment.setProfile(currentUserProfile);
-        messageComment.setContent(comment);
+        messageComment.setCommentContent(commentContent);
 
         messageCommentService.save(messageComment);
-        
+
         // eli ongelma, nyt tulostuu KAIKKI kyseisen messagen kommentit, ei rajaa vain viimeiset 10, sekä tulostuu vääräs järkässä.
         // jos käytän järjestämistä eli ilman message.comments, vaan pelkkä comments, niin sillon ne viestit sekoittuu.
         // ei katota, onko jo tykänyt viestistä, voi tykätä monta kertaa vain.
         // kommentit voi olla tyhjiä
-
-
         return "redirect:/index/" + id;
 
     }

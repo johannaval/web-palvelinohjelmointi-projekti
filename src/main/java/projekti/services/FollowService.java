@@ -15,7 +15,7 @@ public class FollowService {
 
     public Boolean findByFollowerAndFollowing(Profile follower, Profile following) {
 
-        if (followRepository.findByFollowerAndFollowing(follower, following).size()>0) {
+        if (followRepository.findByFollowerAndFollowing(follower, following).size() > 0) {
             return true;
         }
         return false;
@@ -32,6 +32,18 @@ public class FollowService {
 
         for (Follow follow : follows) {
             if (follow.getFollower().equals(follower)) {
+                return follow;
+            }
+        }
+        return null;
+    }
+
+    public Follow getFollowing(Profile following, Profile follower) {
+
+        List<Follow> follows = followRepository.findByFollower(follower);
+
+        for (Follow follow : follows) {
+            if (follow.getFollowing().equals(following)) {
                 return follow;
             }
         }

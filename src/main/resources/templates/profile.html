@@ -37,6 +37,11 @@
                             <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä</a>
                         </li>   
                     </ul>
+                    <ul class="navbar-nav float-md-right">                   
+                        <li class="nav-item px-3" style="padding-right: 30px">
+                            <a class="nav-link" th:href="@{/logout}">Kirjaudu ulos</a>
+                        </li> 
+                    </ul>
 
                 </div>
             </nav>   
@@ -75,10 +80,8 @@
 
                                 <p></p>
 
-                                <h4> Seuraajia: <span th:text="${number_of_followers}">msg</span> </h4>
 
-                                <h4>Seuraajat: </h4>
-
+                                <h4>Seuraajat: (<span th:text="${number_of_followers}">followers</span>kpl)</h4>
 
                                 <ul class="list-group">
                                     <li class="list-group-item" th:each="follow : ${followers}">
@@ -90,13 +93,29 @@
                                         </form>
                                     </li>
                                 </ul>
+
+                                <p></p>
+                                <h4>Seuraat: (<span th:text="${number_of_following}">following</span>kpl)</h4>
+
+
+                                <ul class="list-group">
+                                    <li class="list-group-item" th:each="follow : ${following}">
+                                        <footer class="blockquote-footer"> Nimi: <span th:text="${follow.following.account.name}">name</span></cite></footer>
+                                        <footer class="blockquote-footer"> Seurattu: <span th:text="${follow.time}">date</span></cite></footer>
+                                        <p></p>
+                                        <form th:action="@{/accounts/{profileName}/delete_following/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.following.profileName})}" method="POST">
+                                            <input type="submit" class="btn btn-dark" value="Lopeta seuraaminen"/>
+                                        </form>
+                                    </li>
+                                </ul>
                             </div>
 
 
                             <div th:if="${profile.account.username} != ${currentUser.username}">
                                 <br></br>
 
-                                <h4> Seuraajia: <span th:text="${number_of_followers}">followers</span> </h4>
+                                <h6> Seuraajia: <span th:text="${number_of_followers}">followers</span> </h6>
+                                <h6> Seuraa: <span th:text="${number_of_following}">following</span> </h6>
 
 
                                 <div th:if="${alreadyFollowing} == false">
@@ -119,8 +138,7 @@
                     </div>
                 </div>
             </div>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>            
-        </body>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>        </body>
 
     </html>
 </html>

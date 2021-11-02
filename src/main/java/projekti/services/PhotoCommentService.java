@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import projekti.entities.Message;
 import projekti.entities.Photo;
 import projekti.entities.PhotoComment;
+import projekti.entities.PhotoLike;
 import projekti.entities.Profile;
 import projekti.repositories.PhotoCommentRepository;
 import projekti.repositories.PhotoLikeRepository;
@@ -36,12 +37,21 @@ public class PhotoCommentService {
         if (comments.size() > 10) {
             return comments.subList(0, 10);
         }
-        
+
         return comments;
     }
 
     public void save(PhotoComment photoComment) {
 
         photoCommentRepository.save(photoComment);
+    }
+
+    public void deleteComments(Photo photo, Profile profile) {
+
+        List<PhotoComment> comments = photoCommentRepository.findByProfileAndPhoto(profile, photo);
+
+        for (PhotoComment comment : comments) {
+            photoCommentRepository.delete(comment);
+        }
     }
 }

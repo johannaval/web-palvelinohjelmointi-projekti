@@ -29,5 +29,4 @@ public class Account extends AbstractPersistable<Long> {
 
     @OneToOne
     private Profile profile;
-
 }

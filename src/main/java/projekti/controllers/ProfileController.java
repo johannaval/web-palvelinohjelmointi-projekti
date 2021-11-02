@@ -56,7 +56,10 @@ public class ProfileController {
         Photo profilePhoto = photoService.getProfilePhoto(profile);
 
         List<Follow> followers = followService.findByFollowing(profileService.findByProfileName(profileName));
+        List<Follow> following = followService.findByFollower(profileService.findByProfileName(profileName));
+
         model.addAttribute("number_of_followers", followers.size());
+        model.addAttribute("number_of_following", following.size());
 
         if (profilePhoto != null) {
             model.addAttribute("profilePhoto", profilePhoto.getNumber());
@@ -64,6 +67,7 @@ public class ProfileController {
 
         if (currentUser.getProfileName().equals(profileName)) {
             model.addAttribute("followers", followers);
+            model.addAttribute("following", following);
         }
 
         if (followService.findByFollowerAndFollowing(currentUserProfile, profile)) {

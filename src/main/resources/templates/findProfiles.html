@@ -25,6 +25,11 @@
                             <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä <span class="sr-only">(current)</span></a>
                         </li>   
                     </ul>
+                    <ul class="navbar-nav float-md-right">                   
+                        <li class="nav-item px-3" style="padding-right: 30px">
+                            <a class="nav-link" th:href="@{/logout}">Kirjaudu ulos</a>
+                        </li> 
+                    </ul>
 
                 </div>
             </nav>   
@@ -55,9 +60,9 @@
 
                                 <ul class="list-group">
                                     <li class="list-group-item" th:each="profile : ${profiles}">
-                                        
+
                                         <h6> Nimi: <span th:text="${profile.account.name}">name</span></h6> 
-                                        
+
                                         <h6> Käyttäjänimi: <span th:text="${profile.account.username}">username</span></h6>
                                         <h6> Profiilin tunnus: <span th:text="${profile.account.profileName}">profileName</span></h6>
 
@@ -75,4 +80,7 @@
                 </div>
             </div>
         </body>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>                            </body>
+
     </html>
+</html>

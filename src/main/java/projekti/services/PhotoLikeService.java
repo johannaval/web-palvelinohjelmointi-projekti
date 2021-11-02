@@ -46,4 +46,13 @@ public class PhotoLikeService {
         System.out.println("täällä");
         photoLikeRepository.save(photoLike);
     }
+
+    public void deleteLikes(Photo photo, Profile profile) {
+
+        List<PhotoLike> likes = photoLikeRepository.findByProfileAndPhoto(profile, photo);
+
+        for (PhotoLike like : likes) {
+            photoLikeRepository.delete(like);
+        }
+    }
 }

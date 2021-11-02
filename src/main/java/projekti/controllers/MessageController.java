@@ -2,10 +2,13 @@ package projekti.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,12 +52,36 @@ public class MessageController {
     PhotoService photoService;
 
     @PostMapping("/index")
-    public String postMessage(@RequestParam String content) {
+    public String postMessage(@Valid @ModelAttribute Message message, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            Profile currentUser = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
+            List<Follow> followedProfiles = followService.findByFollower(currentUser);
+            List<Profile> profiles = new ArrayList<>();
+
+            profiles.add(currentUser);
+
+            Photo profilePhoto = photoService.getProfilePhoto(currentUser);
+
+            if (profilePhoto != null) {
+                model.addAttribute("profilePhoto", profilePhoto.getNumber());
+            }
+
+            for (Follow follow : followedProfiles) {
+                profiles.add(follow.getFollowing());
+            }
+
+            model.addAttribute("messages", messageService.getMessagesByProfiles(profiles));
+            model.addAttribute("currentUser", currentUser);
+
+            return "index";
+        }
 
         Profile currentUser = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
 
-        Message message = new Message();
-        message.setContent(content);
+        //   Message message = new Message();
+        message.setContent(message.getContent());
         message.setProfile(currentUser);
         message.setLikeCount(0);
 
@@ -65,7 +92,7 @@ public class MessageController {
     }
 
     @GetMapping("/index")
-    public String getMessages(Model model) {
+    public String getMessages(@ModelAttribute Message message, Model model) {
 
         Profile currentUser = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
         List<Follow> followedProfiles = followService.findByFollower(currentUser);
@@ -83,7 +110,14 @@ public class MessageController {
             profiles.add(follow.getFollowing());
         }
 
-        model.addAttribute("messages", messageService.getMessagesByProfiles(profiles));
+        List<Message> messages = messageService.getMessagesByProfiles(profiles);
+
+        for (Message m : messages) {
+            m.setLiked(false);
+            messageService.save(m);
+        }
+
+        model.addAttribute("messages", messages);
         model.addAttribute("currentUser", currentUser);
 
         List<Message> m = messageService.getMessagesByProfiles(profiles);
@@ -97,7 +131,7 @@ public class MessageController {
     }
 
     @GetMapping("/index/{id}")
-    public String getMessage(@PathVariable Long id, Model model) {
+    public String getMessage(@PathVariable Long id, @ModelAttribute Message message, Model model) {
 
         Profile currentUser = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
         List<Follow> followedProfiles = followService.findByFollower(currentUser);
@@ -118,15 +152,18 @@ public class MessageController {
         model.addAttribute("messages", messageService.getMessagesByProfiles(profiles));
         model.addAttribute("currentUser", currentUser);
 
-        Message message = messageService.findMessageById(id);
+        message = messageService.findMessageById(id);
         Profile profile = message.getProfile();
 
         List<MessageLike> likes = messageLikeService.getMessageLikesByMessage(message);
-
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(likes.size());
-
         List<MessageComment> comments = messageCommentService.getMessageCommentsByMessage(message);
+
+        for (MessageLike like : likes) {
+            if (like.getProfile().getProfileName().equals(currentUser.getProfileName())) {
+                message.setLiked(true);
+                messageService.save(message);
+            }
+        }
 
         model.addAttribute("likeCount", likes.size());
         model.addAttribute("comments", comments);

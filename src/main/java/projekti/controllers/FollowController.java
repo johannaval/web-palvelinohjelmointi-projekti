@@ -46,16 +46,29 @@ public class FollowController {
 
     }
 
-
     @PostMapping("/accounts/{profileName}/delete_follower/{profileName_to_delete}")
     public String deleteFollow(@PathVariable String profileName, @PathVariable String profileName_to_delete) {
-        
+
         Profile following = profileService.findByProfileName(profileName);
         Profile follower = profileService.findByProfileName(profileName_to_delete);
 
         Follow follow_to_delete = followService.getFollow(following, follower);
         followService.delete(follow_to_delete);
-        
+
+        return "redirect:/accounts/{profileName}";
+
+    }
+
+    
+    @PostMapping("/accounts/{profileName}/delete_following/{profileName_to_delete}")
+    public String deleteFollowing(@PathVariable String profileName, @PathVariable String profileName_to_delete) {
+
+        Profile following = profileService.findByProfileName(profileName_to_delete);
+        Profile follower = profileService.findByProfileName(profileName);
+
+        Follow follow_to_delete = followService.getFollowing(following, follower);
+        followService.delete(follow_to_delete);
+
         return "redirect:/accounts/{profileName}";
 
     }

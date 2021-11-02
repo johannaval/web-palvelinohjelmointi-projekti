@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Message extends AbstractPersistable<Long> {
 
     //@NotEmpty
     //@Column(columnDefinition="TEXT")
+    @Size(min = 1, max = 250, message = "Viestissä pitää olla 1-250 merkkiä")
     private String content;
 
     @Id
@@ -38,6 +40,8 @@ public class Message extends AbstractPersistable<Long> {
     private LocalDateTime date = LocalDateTime.now();
 
     private Integer likeCount;
+
+    private Boolean liked = false;
 
     @OneToMany(mappedBy = "message")
     private List<MessageLike> likes = new ArrayList<>();

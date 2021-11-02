@@ -44,6 +44,7 @@ public class PhotoController {
     @GetMapping("/accounts/{profileName}/photos")
     public String view(@PathVariable String profileName, Model model) {
 
+        model.addAttribute("isProfilePhoto", false);
         model.addAttribute("profile", profileService.getProfileByProfileName(profileName));
         model.addAttribute("currentUser", accountService.getCurrentUser());
         model.addAttribute("photoGalleryFull", false);
@@ -95,8 +96,15 @@ public class PhotoController {
         List<PhotoLike> likes = photoLikeService.getPhotoLikesByPhoto(photo);
         List<PhotoComment> comments = photoCommentService.getPhotoCommentsByPhoto(photo);
 
-        Boolean liked = photoLikeService.alreadyLiked(photo, currentUserProfile);
+        Boolean liked = false;
+        Boolean isProfilePhoto = false;
 
+        if (photo != null) {
+            liked = photoLikeService.alreadyLiked(photo, currentUserProfile);
+            isProfilePhoto = photo.getProfilePhoto();
+        }
+
+        model.addAttribute("isProfilePhoto", isProfilePhoto);
         model.addAttribute("liked", liked);
         model.addAttribute("likeCount", likes.size());
         model.addAttribute("comments", comments);
@@ -129,7 +137,6 @@ public class PhotoController {
         if (file.getBytes().length == 0) {
             model.addAttribute("error_message", "Et voi ladata tyhjää tiedostoa :/ ");
             return "redirect:/accounts/" + profileName + "/photos/" + numberOfImages;
-            // ois kiva jos tän sais palauttamaan curent photon + ei näytä virheteksitä?
         }
 
         Photo newPhoto = new Photo();
@@ -160,13 +167,17 @@ public class PhotoController {
             }
             photoService.save(p);
         }
-        return "redirect:/accounts/" + profileName + "/photos/" + numberOfImages;
+        return "redirect:/accounts/" + profileName + "/photos/" + number;
     }
 
     @PostMapping("/accounts/{profileName}/photos/{number}/deletePhoto")
     public String deletePhoto(Model model, @PathVariable String profileName, @PathVariable Integer number) {
 
         Photo photo = photoService.getPhotoFromProfile(profileService.getProfileByProfileName(profileName), number);
+        Profile profile = profileService.findByProfileName(profileName);
+        photoLikeService.deleteLikes(photo, profile);
+        photoCommentService.deleteComments(photo, profile);
+
         photoService.delete(photo);
 
         Integer numberOfImages = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).size();
