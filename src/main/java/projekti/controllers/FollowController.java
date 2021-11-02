@@ -1,6 +1,7 @@
 package projekti.controllers;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,11 @@ public class FollowController {
             follow.setFollower(profileService.findByProfileName(accountService.getCurrentUser().getProfileName()));
             follow.setFollowing(profileService.findByProfileName(profileName));
             LocalDateTime following_time = LocalDateTime.now();
-            follow.setTime(following_time.toString());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formatDateTime = following_time.format(formatter);
+
+            follow.setTime(formatDateTime);
 
             followService.save(follow);
         }
@@ -59,7 +64,6 @@ public class FollowController {
 
     }
 
-    
     @PostMapping("/accounts/{profileName}/delete_following/{profileName_to_delete}")
     public String deleteFollowing(@PathVariable String profileName, @PathVariable String profileName_to_delete) {
 

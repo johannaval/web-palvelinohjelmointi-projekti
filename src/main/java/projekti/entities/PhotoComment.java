@@ -22,6 +22,8 @@ public class PhotoComment extends AbstractPersistable<Long> {
 
     private LocalDateTime date = LocalDateTime.now();
 
+    private String dateString;
+
     //@NotEmpty
     //@Column(columnDefinition="TEXT")
     private String content;

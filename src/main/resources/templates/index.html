@@ -39,7 +39,7 @@
         <body style="background-color:lightslategrey;">
             <br>
             </br>
-
+            
             <div class="container">
 
                 <div class="starter-template">
@@ -95,7 +95,7 @@
                                             <h3 class="card-title"><p> <span th:text="${message.content}">content</span></p></h3>
                                             <footer class="blockquote-footer">Lähettäjä: <span th:text="${message.profile.account.name}">name</span></cite></footer>
                                             <footer class="blockquote-footer">Tykkäykset: <span th:text="${message.likeCount}">likes</span></cite></footer>
-                                            <footer class="blockquote-footer">Päiväys: <span th:text="${message.date}">date</span></cite></footer>
+                                            <footer class="blockquote-footer">Päiväys: <span th:text="${message.dateString}">date</span></cite></footer>
 
                                             <p></p>
                                             <p></p>
@@ -117,7 +117,7 @@
                                                     <h4 class="card-title"><p> <span th:text="${comment.commentContent}">content</span></p></h4>
 
                                                     <footer class="blockquote-footer"> Lähettäjä: <span th:text="${comment.profile.account.name}">name</span></cite></footer>
-                                                    <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.date}">date</span></cite></footer>
+                                                    <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.dateString}">dateString</span></cite></footer>
                                                 </li>
                                             </ul>
 

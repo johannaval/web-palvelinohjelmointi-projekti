@@ -124,7 +124,7 @@
                                             <h4 class="card-title"><p> <span th:text="${comment.content}">content</span></p></h4>
 
                                             <footer class="blockquote-footer"> Lähettäjä: <span th:text="${comment.profile.account.name}">name</span></cite></footer>
-                                            <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.date}">date</span></cite></footer>
+                                            <footer class="blockquote-footer"> Päiväys: <span th:text="${comment.dateString}">dateString</span></cite></footer>
                                         </li>
                                     </ul>
 
@@ -179,7 +179,7 @@
                             <div style="padding:20px;">
 
                                 <div th:if="${photoGalleryFull} == true">
-                                    <p>Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi"</p>
+                                    <h6>Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi</h6>
                                 </div>
 
                                 <div th:if="${photoGalleryFull} == false">

@@ -1,5 +1,7 @@
 package projekti.controllers;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -60,6 +62,11 @@ public class MessageCommentController {
         messageComment.setMessage(message);
         messageComment.setProfile(currentUserProfile);
         messageComment.setCommentContent(commentContent);
+
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        messageComment.setDateString(date.format(formatter));
 
         messageCommentService.save(messageComment);
 

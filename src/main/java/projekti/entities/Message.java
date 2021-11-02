@@ -38,6 +38,8 @@ public class Message extends AbstractPersistable<Long> {
     private Long id;
 
     private LocalDateTime date = LocalDateTime.now();
+    
+    private String dateString;
 
     private Integer likeCount;
 

@@ -23,6 +23,8 @@ public class MessageComment extends AbstractPersistable<Long> {
 
     private LocalDateTime date = LocalDateTime.now();
 
+    private String dateString;
+
     //@NotEmpty
     //@Column(columnDefinition="TEXT")
     //@Size(min = 1, max = 250, message = "Kommentissa pitää olla 1-150 merkkiä")

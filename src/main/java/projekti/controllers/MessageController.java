@@ -1,5 +1,7 @@
 package projekti.controllers;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
@@ -84,6 +86,11 @@ public class MessageController {
         message.setContent(message.getContent());
         message.setProfile(currentUser);
         message.setLikeCount(0);
+
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        message.setDateString(date.format(formatter));
 
         messageService.save(message);
 
