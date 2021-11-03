@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <form th:action="@{/index}" th:object="${message}" method="POST"> 
                                     <form>
-                                        <textarea type="text" th:field="*{content}" id="message" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        <textarea type="text" th:field="*{content}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                         <td th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content Virheviesti</td>                                        
 
                                         <p></p>
