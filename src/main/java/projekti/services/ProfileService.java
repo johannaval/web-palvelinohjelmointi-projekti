@@ -23,8 +23,23 @@ public class ProfileService {
     public Profile getProfileByProfileName(String profileName) {
         return profileRepository.findByProfileName(profileName);
     }
+    
+    
+    public List findByProfileNameContains(String profileName) {
+
+        List<Profile> profiles = profileRepository.findAll();
+        List<Profile> profiles_found = new ArrayList<>();
+
+        for (Profile profile : profiles) {
+            if (profile.getAccount().getName().toLowerCase().contains(profileName.toLowerCase())) {
+                profiles_found.add(profile);
+            }
+        }
+        return profiles_found;
+    }
 
     public Profile findByProfileName(String profileName) {
+        
         return profileRepository.findByProfileName(profileName);
     }
 

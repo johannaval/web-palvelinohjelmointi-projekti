@@ -60,12 +60,12 @@
                 <div class="starter-template">
                     <div th:if="${current != null}">
 
-                        <div class="card bg-light mb-3" style="width: 95%" >
+                        <div class="card bg-light mb-3" style="width: 95%; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)" >
                             <div class="card-body">
 
                                 <div th:if="${total_count > 0}">
 
-                        
+
 
 
                                     <div th:if="${profile.account.username} != ${currentUser.username}">
@@ -107,7 +107,9 @@
                                     </div>
 
                                     <div th:if="${liked}">
-                                        <p style="font-family: 'Times New Roman'">Olet tykännyt tästä kuvasta! </p>
+                                        <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/delete_like(profileName=${profile.profileName}, number=${current})}" >
+                                            <input type="submit" class="btn btn-light" value="Poista tykkäys"/>
+                                        </form>
                                     </div>
 
                                     <div th:if="${profile.account.username} == ${currentUser.username}">
@@ -178,7 +180,7 @@
 
                     <div th:if="${profile.account.username} == ${currentUser.username}">
 
-                        <div class="card bg-light mb-3" style="width: 95%" >
+                        <div class="card bg-light mb-3" style="width: 95%; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)" >
                             <div class="card-body"></div>
 
                             <div style="padding:20px;">

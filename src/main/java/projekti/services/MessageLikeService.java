@@ -43,4 +43,9 @@ public class MessageLikeService {
 
         messageLikeRepository.save(messageLike);
     }
+
+    public void deleteLike(MessageLike like) {
+        
+        messageLikeRepository.delete(like);
+    }
 }

@@ -57,7 +57,7 @@
 
                 <div class="starter-template">
 
-                    <div class="card bg-light mb-3" style="width: 95%" >
+                    <div class="card bg-light mb-3" style="width: 95%; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)">
                         <div class="card-body">
 
 
@@ -139,6 +139,10 @@
 
                                 <div th:if="${alreadyFollowing} == true">
                                     <h4 style="font-family: 'Times New Roman'">Seuraat käyttäjää! </h4>
+
+                                    <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${currentUser.profileName})}" method="POST">
+                                        <input type="submit" class="btn btn-light" value="Lopeta seuraaminen"/>
+                                    </form>
                                 </div>
 
                                 <br></br>

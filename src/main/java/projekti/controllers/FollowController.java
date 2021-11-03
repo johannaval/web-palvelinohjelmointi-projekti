@@ -59,6 +59,8 @@ public class FollowController {
 
         Follow follow_to_delete = followService.getFollow(following, follower);
         followService.delete(follow_to_delete);
+        
+        System.out.println("TÄÄLLÄ");
 
         return "redirect:/accounts/{profileName}";
 

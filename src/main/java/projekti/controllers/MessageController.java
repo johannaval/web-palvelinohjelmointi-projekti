@@ -89,7 +89,7 @@ public class MessageController {
 
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        
+
         message.setDateString(date.format(formatter));
 
         messageService.save(message);
@@ -197,5 +197,27 @@ public class MessageController {
 
         return "redirect:/index/" + id;
 
+    }
+
+    @PostMapping("/index/{id}/delete_like")
+    public String delete_like(@PathVariable Long id) {
+
+        Message message = messageService.findMessageById(id);
+
+        Account currentUser = accountService.getCurrentUser();
+        Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
+
+        List<MessageLike> likes = messageLikeService.getMessageLikesByMessage(message);
+        
+        for (MessageLike like : likes) {
+            if (like.getProfile().getProfileName().equals(currentUserProfile.getProfileName())) {
+                messageLikeService.deleteLike(like);
+                System.out.println("TYKKÄÄJÄ LÖYTYI, POISTETAAN!!!!!");
+                message.setLikeCount(message.getLikeCount()-1);
+                messageService.save(message);
+            }
+        }
+
+        return "redirect:/index/";
     }
 }

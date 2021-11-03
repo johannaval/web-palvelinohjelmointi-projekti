@@ -55,4 +55,9 @@ public class PhotoLikeService {
             photoLikeRepository.delete(like);
         }
     }
+
+    public void deleteLike(PhotoLike like) {
+        
+        photoLikeRepository.delete(like);
+    }
 }

@@ -76,57 +76,20 @@ public class ProfileController {
     }
 
     @GetMapping("/findProfile")
-    public String indexView(Model model) {
+    public String findProfiles(Model model) {
 
         model.addAttribute("currentUser", accountService.getCurrentUser());
         return "findProfiles";
     }
 
     @GetMapping("/findProfile/seach")
-    public String indexView(Model model, @RequestParam String name) {
+    public String findProfiles2(Model model, @RequestParam String name) {
+        
+        List<Profile> profiles = profileService.findByProfileNameContains(name);
 
-        model.addAttribute("profiles", profileService.findProfilesByName(name));
+        model.addAttribute("profiles", profiles);
         model.addAttribute("currentUser", accountService.getCurrentUser());
 
         return "findProfiles";
     }
-
-    /*
-    @Transactional
-    @PostMapping("/accounts/{profileName}")
-    public String followProfile(@PathVariable String profileName) {
-
-        Profile followProfile = profileService.findByProfileName(profileName);
-        Profile currentUserProfile = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
-
-        if (!currentUserProfile.getFollowing().contains(followProfile)) {
-
-            followProfile.getFollowers().add(currentUserProfile);
-            currentUserProfile.getFollowing().add(followProfile);
-
-            profileService.updateProfile(followProfile);
-            profileService.updateProfile(currentUserProfile);
-        }
-
-        return "redirect:/accounts/{profileName}";
-    }
-
-    @Transactional
-    @PostMapping("/accounts/{profileName}/delete_follower/{profileName_to_delete}")
-    public String deleteFollower(@PathVariable String profileName, @PathVariable String profileName_to_delete) {
-
-        Profile delete_follower = profileService.findByProfileName(profileName_to_delete);
-        Profile currentUserProfile = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
-
-        if (currentUserProfile.getFollowers().contains(delete_follower)) {
-
-            currentUserProfile.getFollowers().remove(delete_follower);
-            delete_follower.getFollowing().remove(currentUserProfile);
-
-            profileService.updateProfile(delete_follower);
-            profileService.updateProfile(currentUserProfile);
-        }
-
-        return "redirect:/accounts/{profileName}";
-    }*/
 }

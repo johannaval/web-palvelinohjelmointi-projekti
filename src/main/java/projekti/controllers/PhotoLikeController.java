@@ -39,8 +39,6 @@ public class PhotoLikeController {
         Profile profile = profileService.findByProfileName(profileName);
         Photo photo = photoService.getPhotoFromProfile(profileService.findByProfileName(profileName), number);
 
-        List<PhotoLike> likes = photoLikeService.getPhotoLikesByPhoto(photo);
-
         Account currentUser = accountService.getCurrentUser();
         Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
 
@@ -48,14 +46,34 @@ public class PhotoLikeController {
         photoLike.setPhoto(photo);
         photoLike.setProfile(currentUserProfile);
 
-        System.out.println("likes: " + likes.size());
-
         photoLikeService.save(photoLike);
         
-        List<PhotoLike> likes2 = photoLikeService.getPhotoLikesByPhoto(photo);
 
-        System.out.println("likes: " + likes2.size());
+        return "redirect:/accounts/" + profileName + "/photos/" + number;
 
+    }
+    
+      @PostMapping("/accounts/{profileName}/photos/{number}/delete_like")
+    public String delete_like(@PathVariable String profileName, @PathVariable Integer number) {
+
+        Profile profile = profileService.findByProfileName(profileName);
+        Photo photo = photoService.getPhotoFromProfile(profileService.findByProfileName(profileName), number);
+
+        List<PhotoLike> likes = photoLikeService.getPhotoLikesByPhoto(photo);
+
+        Account currentUser = accountService.getCurrentUser();
+        Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
+
+        Photo liked = photoService.getPhotoFromProfile(profile, number);
+        List<PhotoLike> list_likes = photoLikeService.getPhotoLikesByPhoto(liked);
+        
+        for (PhotoLike like : list_likes){
+            if(like.getPhoto().getProfile().getProfileName().equals(currentUserProfile.getProfileName())){
+                photoLikeService.deleteLike(like);
+            }            
+        }
+        
+      
         return "redirect:/accounts/" + profileName + "/photos/" + number;
 
     }
