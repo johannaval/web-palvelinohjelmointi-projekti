@@ -44,20 +44,20 @@
 
                                             <tr>
                                                 <h5 class="card-title"style="font-family: 'Times New Roman'">Nimi:</h5>
-                                                <td><input type="text" th:field="*{name}" /></td>
+                                                <td><input type="text" id="name" th:field="*{name}" /></td>
                                                 <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Virheviesti</td>
                                             </tr>
 
                                             <tr>
                                                 <h5 class="card-title"style="font-family: 'Times New Roman'">Käyttäjänimi:</h5>
-                                                <td><input type="text" th:field="*{username}" /></td>
+                                                <td><input type="text" id="username" th:field="*{username}" /></td>
                                                 <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Virheviesti</td>
                                                 <td th:if="${error_message}!=null" th:text="${error_message}"></td>
                                             </tr>
 
                                             <tr>
                                                 <h5 class="card-title"style="font-family: 'Times New Roman'">Profiilin tunnus:</h5>
-                                                <td><input type="text" th:field="*{profileName}" /></td>
+                                                <td><input type="text" if="profileName" th:field="*{profileName}" /></td>
                                                 <td th:if="${#fields.hasErrors('profileName')}" th:errors="*{profileName}">ProfileName Virheviesti</td>
                                                 <td th:if="${error_message}!=null" th:text="${error_message}"></td>
 
@@ -65,7 +65,7 @@
 
                                             <tr>
                                                 <h5 class="card-title"style="font-family: 'Times New Roman'">Salasana:</h5>
-                                                <td><input type="password" th:field="*{password}" /></td>
+                                                <td><input type="password" id="password" th:field="*{password}" /></td>
                                                 <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Virheviesti</td>
                                             </tr>
 
@@ -85,8 +85,11 @@
             </div>
 
 
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>        </body>
+        </body>
 
     </html>
 </html>
