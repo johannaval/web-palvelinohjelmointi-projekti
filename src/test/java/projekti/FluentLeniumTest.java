@@ -75,7 +75,7 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
         find("#password").fill().with("tuijansalis");
         find("form").first().submit();
 
-   //     assertTrue(pageSource().contains("Hei"));
+    //    assertTrue(pageSource().contains("Hei"));
     }
 
     @Test
