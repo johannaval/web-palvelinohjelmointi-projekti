@@ -78,10 +78,6 @@ public class MockMvcTest {
     public void loginAndRegistrationsReturnsStatusOk() throws Exception {
         mockMvc.perform(get("/login")).andExpect(status().isOk());
         mockMvc.perform(get("/registrations")).andExpect(status().isOk());
-    }
-
-    @Test
-    public void indexReturnsStatusOk() throws Exception {
-        mockMvc.perform(get("/index")).andExpect(status().isNotFound());
+        System.out.println("");
     }
 }
