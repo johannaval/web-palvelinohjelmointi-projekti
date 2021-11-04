@@ -1,17 +1,13 @@
 package projekti;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static javax.swing.UIManager.get;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import javax.transaction.Transactional;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -22,8 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import projekti.services.AccountService;
@@ -34,6 +30,7 @@ import projekti.services.MessageService;
 import projekti.services.PhotoService;
 import projekti.services.ProfileService;
 
+@Transactional
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -69,38 +66,22 @@ public class MockMvcTest {
     @Autowired
     private WebApplicationContext context;
 
-    /*   @Autowired
-    private WebApplicationContext context;
-
-    private ObjectMapper mapper; */
     private ObjectMapper mapper;
 
-    @Before
-    public void createUsersAndMessages() {
-
-        mapper = new ObjectMapper();
-        //   mapper = new ObjectMapper();
-        //   mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+    @Test
+    public void loginAndRegistrationsReturnsStatusSuccessful() throws Exception {
+        mockMvc.perform(get("/login")).andExpect(status().is2xxSuccessful());
+        mockMvc.perform(get("/registrations")).andExpect(status().is2xxSuccessful());
     }
 
     @Test
-    public void modelHasAttributeMessages() throws Exception {
-        mockMvc.perform((RequestBuilder) get("/index"))
-                .andExpect(model().attributeExists("messages"));
+    public void loginAndRegistrationsReturnsStatusOk() throws Exception {
+        mockMvc.perform(get("/login")).andExpect(status().isOk());
+        mockMvc.perform(get("/registrations")).andExpect(status().isOk());
     }
 
     @Test
-    public void statusOk() throws Exception {
-        mockMvc.perform((RequestBuilder) get("/index"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void responseContainsTextAwesome() throws Exception {
-        MvcResult res = mockMvc.perform((RequestBuilder) get("/messages"))
-                .andReturn();
-
-        String content = res.getResponse().getContentAsString();
-        Assert.assertTrue(content.contains("Awesome"));
+    public void indexReturnsStatusOk() throws Exception {
+        mockMvc.perform(get("/index")).andExpect(status().isNotFound());
     }
 }

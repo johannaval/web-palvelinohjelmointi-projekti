@@ -52,7 +52,7 @@
 
                             <form action="#" th:action="@{/findProfile/seach}" method="GET"> 
                                 <form>
-                                    <input type="text" name="name"/>
+                                    <input type="text" id="name" name="name"/>
                                     <input type="submit" class="btn btn-dark" value="Etsi!"/>
                                 </form>
 
@@ -67,7 +67,7 @@
 
                                         <p></p> 
                                         <form th:action="@{/accounts/{profileName}(profileName=${profile.account.profileName})}" method="GET">
-                                            <input type="submit" class="btn btn-dark" value="Näytä profiili"/>
+                                            <input type="submit" id="showProfile" class="btn btn-dark" value="Näytä profiili"/>
                                         </form>
                                     </li>
                                     <br></br>

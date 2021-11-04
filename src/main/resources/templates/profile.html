@@ -133,7 +133,7 @@
                                 <div th:if="${alreadyFollowing} == false">
 
                                     <form th:action="@{/accounts/{profileName}/(profileName=${profile.profileName})}" method="POST">
-                                        <input type="submit" class="btn btn-dark" value="Seuraa käyttäjää"/>
+                                        <input type="submit" id="follow" class="btn btn-dark" value="Seuraa käyttäjää"/>
                                     </form>
                                 </div>
 
@@ -141,12 +141,12 @@
                                     <h4 style="font-family: 'Times New Roman'">Seuraat käyttäjää! </h4>
 
                                     <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${currentUser.profileName})}" method="POST">
-                                        <input type="submit" class="btn btn-light" value="Lopeta seuraaminen"/>
+                                        <input type="submit" id="unfollow" class="btn btn-light" value="Lopeta seuraaminen"/>
                                     </form>
                                 </div>
 
                                 <br></br>
-                                <div><a th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Katso käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> kuvat</a></div>
+                                <div><a id="linkToGallery" th:href="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}">Katso käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> kuvat</a></div>
 
                             </div>
                         </div>

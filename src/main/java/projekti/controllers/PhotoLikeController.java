@@ -68,7 +68,7 @@ public class PhotoLikeController {
         List<PhotoLike> list_likes = photoLikeService.getPhotoLikesByPhoto(liked);
         
         for (PhotoLike like : list_likes){
-            if(like.getPhoto().getProfile().getProfileName().equals(currentUserProfile.getProfileName())){
+            if(like.getProfile().getProfileName().equals(currentUserProfile.getProfileName())){
                 photoLikeService.deleteLike(like);
             }            
         }

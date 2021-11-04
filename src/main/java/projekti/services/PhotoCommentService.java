@@ -49,7 +49,7 @@ public class PhotoCommentService {
     public void deleteComments(Photo photo, Profile profile) {
 
         List<PhotoComment> comments = photoCommentRepository.findByProfileAndPhoto(profile, photo);
-        
+
         for (PhotoComment comment : comments) {
             photoCommentRepository.delete(comment);
         }        
