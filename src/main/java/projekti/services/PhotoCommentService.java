@@ -1,5 +1,6 @@
 package projekti.services;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,13 @@ public class PhotoCommentService {
 
         List<PhotoComment> comments = photoCommentRepository.findByPhoto(photo);
         comments.sort(Comparator.comparing(PhotoComment::getDate).reversed());
+        Collections.reverse(comments);
 
-        if (comments.size() > 10) {
-            return comments.subList(0, 10);
+        int commentsCount = comments.size();
+
+        if (commentsCount > 10) {
+            return comments.subList(commentsCount - 10, commentsCount);
         }
-
         return comments;
     }
 
@@ -52,6 +55,6 @@ public class PhotoCommentService {
 
         for (PhotoComment comment : comments) {
             photoCommentRepository.delete(comment);
-        }        
+        }
     }
 }

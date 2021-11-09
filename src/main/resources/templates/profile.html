@@ -16,13 +16,13 @@
                             <a class="nav-link" th:href="@{/index}">Etusivu</a>
                         </li>
 
-                        <div th:if="${profile.account.username} == ${currentUser.username}">                        
+                        <div th:if="${profileBelongsToLoggedInUser}">                        
                             <li class="nav-item active px-3">
                                 <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi <span class="sr-only">(current)</span></a>
                             </li> 
                         </div>
 
-                        <div th:if="${profile.account.username} != ${currentUser.username}">                        
+                        <div th:if="${!profileBelongsToLoggedInUser}">                        
                             <li class="nav-item px-3">
                                 <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi</a>
                             </li> 
@@ -50,24 +50,20 @@
 
 
         <body background="https://images.unsplash.com/photo-1494319827402-c4b839aed26b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80" style="background-size: cover; background-attachment: fixed;">  
-            <br>
-            </br>
+            <br></br>
 
             <div class="container">
-
                 <div class="starter-template">
-
                     <div class="card bg-light mb-3" style="width: 95%; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)">
                         <div class="card-body">
 
-
-                            <div th:if="${profile.account.username} == ${currentUser.username}">
+                            <div th:if="${profileBelongsToLoggedInUser}">
                                 <h1 style="font-family: 'Times New Roman'">Tervetuloa sinun profiiliin!</h1>
                                 <p style="font-family:'Courier New'">Täällä näet, ketkä kaikki seuraavat sinua, sekä ketä sinä seuraat! </p>
 
                             </div>
 
-                            <div th:if="${profile.account.username} != ${currentUser.username}">
+                            <div th:if="${!profileBelongsToLoggedInUser}">
                                 <h1 style="font-family: 'Times New Roman'">Tervetuloa käyttäjän <span th:text="${profile.account.name}">nimi</span> profiiliin </h1>
                                 <p style="font-family:'Courier New'">Täällä näet, ketkä käyttäjää <span th:text="${profile.account.name}">nimi</span> seuraa, sekä ketä häntä seuraa! </p>
                             </div>
@@ -94,8 +90,7 @@
                                         <input type="submit" class="btn btn-dark" value="Näytä käyttäjän profiili"/>
                                     </form>
 
-
-                                    <div th:if="${profile.account.username} == ${currentUser.username}">
+                                    <div th:if="${profileBelongsToLoggedInUser}">
                                         <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.follower.profileName})}" method="POST">
                                             <input type="submit" class="btn btn-light" value="Poista käyttäjä seuraajistasi"/>
                                         </form>
@@ -118,7 +113,7 @@
                                         <input type="submit" class="btn btn-dark" value="Näytä käyttäjän profiili"/>
                                     </form>
 
-                                    <div th:if="${profile.account.username} == ${currentUser.username}">
+                                    <div th:if="${profileBelongsToLoggedInUser}">
                                         <form th:action="@{/accounts/{profileName}/delete_following/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${follow.following.profileName})}" method="POST">
                                             <input type="submit" class="btn btn-light" value="Lopeta seuraaminen"/>
                                         </form>
@@ -127,7 +122,7 @@
                             </ul>
 
 
-                            <div th:if="${profile.account.username} != ${currentUser.username}">
+                            <div th:if="${!profileBelongsToLoggedInUser}">
                                 <br></br>
 
                                 <div th:if="${alreadyFollowing} == false">
@@ -138,7 +133,7 @@
                                 </div>
 
                                 <div th:if="${alreadyFollowing} == true">
-                                    <h4 style="font-family: 'Times New Roman'">Seuraat käyttäjää! </h4>
+                                    <h4 style="font-family: 'Times New Roman'">Seuraat käyttäjää <span th:text="${profile.account.name}">nimi</span>! </h4>
 
                                     <form th:action="@{/accounts/{profileName}/delete_follower/{profileName_to_delete}(profileName=${profile.profileName}, profileName_to_delete=${currentUser.profileName})}" method="POST">
                                         <input type="submit" id="unfollow" class="btn btn-light" value="Lopeta seuraaminen"/>
@@ -151,9 +146,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
             </div>
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

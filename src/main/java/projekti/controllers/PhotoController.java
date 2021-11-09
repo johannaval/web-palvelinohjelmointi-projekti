@@ -1,8 +1,9 @@
 package projekti.controllers;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javax.tools.FileObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,26 +43,19 @@ public class PhotoController {
     AccountService accountService;
 
     @GetMapping("/accounts/{profileName}/photos")
-    public String view(@PathVariable String profileName, Model model) {
+    public String viewPhotos(@PathVariable String profileName, Model model) {
 
-        model.addAttribute("isProfilePhoto", false);
-        model.addAttribute("profile", profileService.getProfileByProfileName(profileName));
-        model.addAttribute("currentUser", accountService.getCurrentUser());
-        model.addAttribute("photoGalleryFull", false);
-
-        Integer first_photo = 1;
-
+        //       model.addAttribute("isProfilePhoto", false);
+        //       model.addAttribute("profile", profileService.getProfileByProfileName(profileName));
+        //     model.addAttribute("currentUser", accountService.getCurrentUser());
+        //       model.addAttribute("photoGalleryFull", false);
+        Integer firstPhoto = 1;
         Integer numberOfImages = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).size();
 
-        if (numberOfImages == 10) {
-            model.addAttribute("photoGalleryFull", true);
-        }
-
         if (numberOfImages == 0) {
-            first_photo = 0;
+            firstPhoto = 0;
         }
-
-        return "redirect:/accounts/" + profileName + "/photos/" + first_photo;
+        return "redirect:/accounts/" + profileName + "/photos/" + firstPhoto;
     }
 
     @GetMapping("/accounts/{profileName}/photos/{number}")
@@ -104,17 +98,22 @@ public class PhotoController {
             isProfilePhoto = photo.getProfilePhoto();
         }
 
+        model.addAttribute("galleryBelongsToLoggedInUser", false);
+
+        if (currentUserProfile.equals(profile)) {
+            model.addAttribute("galleryBelongsToLoggedInUser", true);
+        }
+
         model.addAttribute("isProfilePhoto", isProfilePhoto);
         model.addAttribute("liked", liked);
         model.addAttribute("likeCount", likes.size());
         model.addAttribute("comments", comments);
-
         model.addAttribute("profile", profile);
         model.addAttribute("previous", previous);
         model.addAttribute("next", next);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("current", number);
-        model.addAttribute("total_count", numberOfImages);
+        model.addAttribute("totalCount", numberOfImages);
 
         return "photos";
     }
@@ -135,20 +134,20 @@ public class PhotoController {
         model.addAttribute("profile", profileService.getProfileByProfileName(profileName));
 
         if (file.getBytes().length == 0) {
-            model.addAttribute("error_message", "Et voi ladata tyhjää tiedostoa :/ ");
-            return "redirect:/accounts/" + profileName + "/photos/" + numberOfImages;
+            model.addAttribute("error_message", "Et voi ladata tyhjää tiedostoa!");
+
+        } else {
+
+            Photo newPhoto = new Photo();
+            newPhoto.setContent(file.getBytes());
+            newPhoto.setNumber(numberOfImages + 1);
+            newPhoto.setProfile(profileService.findByProfileName(profileName));
+            newPhoto.setCaption(caption);
+            newPhoto.setProfilePhoto(false);
+            photoService.save(newPhoto);
+
+            numberOfImages = numberOfImages + 1;
         }
-
-        Photo newPhoto = new Photo();
-        newPhoto.setContent(file.getBytes());
-        newPhoto.setNumber(numberOfImages + 1);
-        newPhoto.setProfile(profileService.findByProfileName(profileName));
-        newPhoto.setCaption(caption);
-        newPhoto.setProfilePhoto(false);
-        photoService.save(newPhoto);
-
-        numberOfImages = numberOfImages + 1;
-
         return "redirect:/accounts/" + profileName + "/photos/" + numberOfImages;
     }
 
@@ -177,7 +176,6 @@ public class PhotoController {
         Profile profile = profileService.findByProfileName(profileName);
         photoLikeService.deleteLikes(photo, profile);
         photoCommentService.deleteComments(photo, profile);
-
         photoService.delete(photo);
 
         Integer numberOfImages = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).size();
@@ -191,4 +189,68 @@ public class PhotoController {
         return "redirect:/accounts/" + profileName + "/photos/" + numberOfImages;
     }
 
+    @PostMapping("/accounts/{profileName}/photos/{number}/like")
+    public String addLike(@PathVariable String profileName, @PathVariable Integer number) {
+
+        Profile profile = profileService.findByProfileName(profileName);
+        Photo photo = photoService.getPhotoFromProfile(profileService.findByProfileName(profileName), number);
+
+        Account currentUser = accountService.getCurrentUser();
+        Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
+
+        PhotoLike photoLike = new PhotoLike();
+        photoLike.setPhoto(photo);
+        photoLike.setProfile(currentUserProfile);
+
+        photoLikeService.save(photoLike);
+
+        return "redirect:/accounts/" + profileName + "/photos/" + number;
+
+    }
+
+    @PostMapping("/accounts/{profileName}/photos/{number}/delete_like")
+    public String deleteLike(@PathVariable String profileName, @PathVariable Integer number) {
+
+        Profile profile = profileService.findByProfileName(profileName);
+        Photo photo = photoService.getPhotoFromProfile(profileService.findByProfileName(profileName), number);
+
+        List<PhotoLike> likes = photoLikeService.getPhotoLikesByPhoto(photo);
+
+        Account currentUser = accountService.getCurrentUser();
+        Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
+
+        Photo liked = photoService.getPhotoFromProfile(profile, number);
+        List<PhotoLike> list_likes = photoLikeService.getPhotoLikesByPhoto(liked);
+
+        for (PhotoLike like : list_likes) {
+            if (like.getProfile().getProfileName().equals(currentUserProfile.getProfileName())) {
+                photoLikeService.deleteLike(like);
+            }
+        }
+        return "redirect:/accounts/" + profileName + "/photos/" + number;
+    }
+
+    @PostMapping("/accounts/{profileName}/photos/{number}/comment")
+    public String addComment(@PathVariable String profileName, @PathVariable Integer number, String comment) {
+
+        Profile profile = profileService.findByProfileName(profileName);
+        Photo photo = photoService.getPhotoFromProfile(profileService.findByProfileName(profileName), number);
+
+        List<PhotoComment> comments = photoCommentService.getPhotoCommentsByPhoto(photo);
+
+        Account currentUser = accountService.getCurrentUser();
+        Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
+
+        PhotoComment photoComment = new PhotoComment();
+        photoComment.setPhoto(photo);
+        photoComment.setProfile(currentUserProfile);
+        photoComment.setContent(comment);
+
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        photoComment.setDateString(date.format(formatter));
+        photoCommentService.save(photoComment);
+
+        return "redirect:/accounts/" + profileName + "/photos/" + number;
+    }
 }

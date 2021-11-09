@@ -93,7 +93,6 @@ public class MessageController {
             return "redirect:/index/" + firstId;
 
         } else {
-            //        model.addAttribute("messages", messages);
             model.addAttribute("currentUser", currentUser);
             return "index";
         }
@@ -138,7 +137,7 @@ public class MessageController {
     }
 
     @PostMapping("/index")
-    public String postMessage(@Valid @ModelAttribute Message message, BindingResult bindingResult, Model model) {
+    public String addMessage(@Valid @ModelAttribute Message message, BindingResult bindingResult, Model model) {
 
         Profile currentUser = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
 
@@ -178,7 +177,7 @@ public class MessageController {
     }
 
     @PostMapping("/index/{id}/delete_like")
-    public String delete_like(@PathVariable Long id) {
+    public String deleteLike(@PathVariable Long id) {
 
         Profile currentUserProfile = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
 

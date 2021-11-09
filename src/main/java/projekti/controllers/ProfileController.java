@@ -48,43 +48,47 @@ public class ProfileController {
         Profile profile = profileService.findByProfileName(profileName);
         Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
 
-        model.addAttribute("profile", profile);
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("alreadyFollowing", false);
-        model.addAttribute("profilePhoto", null);
-
         Photo profilePhoto = photoService.getProfilePhoto(profile);
 
         List<Follow> followers = followService.findByFollowing(profileService.findByProfileName(profileName));
         List<Follow> following = followService.findByFollower(profileService.findByProfileName(profileName));
 
-        model.addAttribute("number_of_followers", followers.size());
-        model.addAttribute("number_of_following", following.size());
+        model.addAttribute("profilePhoto", null);
 
         if (profilePhoto != null) {
             model.addAttribute("profilePhoto", profilePhoto.getNumber());
         }
+        model.addAttribute("number_of_followers", followers.size());
+        model.addAttribute("number_of_following", following.size());
+        model.addAttribute("profile", profile);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("alreadyFollowing", false);
         model.addAttribute("followers", followers);
         model.addAttribute("following", following);
+        model.addAttribute("profileBelongsToLoggedInUser", false);
+        model.addAttribute("alreadyFollowing", false);
+
+        if (currentUserProfile.equals(profile)) {
+            model.addAttribute("profileBelongsToLoggedInUser", true);
+        }
 
         if (followService.findByFollowerAndFollowing(currentUserProfile, profile)) {
             model.addAttribute("alreadyFollowing", true);
-        } else {
-            model.addAttribute("alreadyFollowing", false);
         }
+        
         return "profile";
     }
 
     @GetMapping("/findProfile")
-    public String findProfiles(Model model) {
+    public String findProfilesView(Model model) {
 
         model.addAttribute("currentUser", accountService.getCurrentUser());
         return "findProfiles";
     }
 
     @GetMapping("/findProfile/seach")
-    public String findProfiles2(Model model, @RequestParam String name) {
-        
+    public String findProfilesSeach(Model model, @RequestParam String name) {
+
         List<Profile> profiles = profileService.findByProfileNameContains(name);
 
         model.addAttribute("profiles", profiles);

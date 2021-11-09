@@ -20,20 +20,17 @@
                             <a class="nav-link" th:href="@{/accounts/{profileName}(profileName=${currentUser.profileName})}">Oma profiilisi </a>
                         </li> 
 
-
-                        <div th:if="${profile.account.username} == ${currentUser.username}">                        
+                        <div th:if="${galleryBelongsToLoggedInUser}">                        
                             <li class="nav-item active px-3">
                                 <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria <span class="sr-only">(current)</span></a>
                             </li> 
                         </div>
 
-                        <div th:if="${profile.account.username} != ${currentUser.username}">                        
+                        <div th:if="${!galleryBelongsToLoggedInUser}">                        
                             <li class="nav-item px-3">
                                 <a class="nav-link" th:href="@{/accounts/{profileName}/photos(profileName=${currentUser.profileName})}">Oma kuva-galleria</a>
                             </li> 
                         </div>
-
-
 
                         <li class="nav-item px-3">
                             <a class="nav-link" th:href="@{/findProfile}">Etsi käyttäjiä</a>
@@ -52,53 +49,54 @@
 
         <body background="https://images.unsplash.com/photo-1494319827402-c4b839aed26b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1169&q=80" style="background-size: cover; background-attachment: fixed;">  
 
-            <br>
-            </br>
+            <br></br>
 
             <div class="container">
-
                 <div class="starter-template">
                     <div th:if="${current != null}">
-
                         <div class="card bg-light mb-3" style="width: 95%; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)" >
                             <div class="card-body">
 
-                                <div th:if="${total_count > 0}">
+                                <div th:if="${totalCount > 0}">
 
-
-
-
-                                    <div th:if="${profile.account.username} != ${currentUser.username}">
+                                    <div th:if="${!galleryBelongsToLoggedInUser}">
                                         <h1 style="font-family: 'Times New Roman'">Käyttäjän <span th:text="${profile.account.name}">name</span> kuvat:</h1>
                                     </div>
 
-                                    <div th:if="${profile.account.username} == ${currentUser.username}">
+                                    <div th:if="${galleryBelongsToLoggedInUser}">
                                         <h1 style="font-family: 'Times New Roman'">Sinun kuvat:</h1>
                                     </div>
                                     <p></p>
                                     <p></p>
 
 
-
-
                                     <div th:if="${previous != null}">
                                         <a style="font-family:'Courier New'" th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${previous})}">Edellinen kuva</a>
                                     </div>
+
                                     <div th:if="${next != null}">
                                         <a style="font-family:'Courier New'" th:href="@{/accounts/{profileName}/photos/{number}(profileName=${profile.profileName}, number=${next})}">Seuraava kuva</a>
                                     </div>
+
                                     <p></p>
 
-                                    <h4 style="font-family: 'Times New Roman'">Kuva <span th:text="${current}">0</span> / <span th:text="${total_count}">10</span></h4>
+                                    <h4 style="font-family: 'Times New Roman'">Kuva <span th:text="${current}">0</span> / <span th:text="${totalCount}">10</span></h4>
 
                                     <img th:src="@{/accounts/{profileName}/photos/{number}/content(profileName=${profile.profileName}, number=${current})}"
                                          width="400" height="400" style="border: #000000 3px outset"/>
 
-                                    <p/>
+                                    <p></p>
                                     <h5 style="font-family: 'Times New Roman'">Kuvateksti: <span th:text="${caption}">caption</span> </h5>
-                                    <p/>
+                                    <p></p>   
+                                    <p></p>     
+                                    <p></p>     
+                                    <p></p>
+                                    <p></p>
+                                    <p></p>
+
+
                                     <h5 style="font-family: 'Times New Roman'">Tykkäykset: <span th:text="${likeCount}">likeCount</span> </h5>
-                                    <br/>
+                                    <p></p>
 
                                     <div th:if="${!liked}">
                                         <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/like(profileName=${profile.profileName}, number=${current})}" >
@@ -112,7 +110,11 @@
                                         </form>
                                     </div>
 
-                                    <div th:if="${profile.account.username} == ${currentUser.username}">
+                                    <p></p>     
+                                    <p></p>     
+                                    <p></p>     
+
+                                    <div th:if="${galleryBelongsToLoggedInUser}">
 
                                         <div th:if="${!isProfilePhoto}">
                                             <form method="POST" th:action="@{/accounts/{profileName}/photos/{number}/setProfilePhoto(profileName=${profile.profileName}, number=${current})}" >
@@ -147,21 +149,17 @@
                                             </form>
                                         </form>
                                     </div>
-
-
-
                                 </div>
-                                <div th:if="${profile.account.username} == ${currentUser.username}">
-                                    <div th:if="${total_count == 0}">
+
+                                <div th:if="${galleryBelongsToLoggedInUser}">
+                                    <div th:if="${totalCount == 0}">
                                         <h2 style="font-family: 'Times New Roman'">Lisää kuvia kuva-albumiisi</h2>
                                         <p>Voit valita niistä jonkun profiilikuvaksesi!</p>
                                     </div>
                                 </div>
 
-
-
-                                <div th:if="${profile.account.username} != ${currentUser.username}">
-                                    <div th:if="${total_count == 0}">
+                                <div th:if="${!galleryBelongsToLoggedInUser}">
+                                    <div th:if="${totalCount == 0}">
                                         <h2 style="font-family: 'Times New Roman'">Äh! Käyttäjä <span th:text="${profile.account.name}">name</span> ei ole vielä lisännyt kuvia! :(</h2>
                                     </div>
                                     <div><a style="font-family: 'Times New Roman'" th:href="@{/accounts/{profileName}(profileName=${profile.profileName})}">Takaisin käyttäjän <span th:text="${profile.account.name}">kayttajan nimi</span> profiiliin</a></div>
@@ -170,23 +168,16 @@
 
                         </div>
                     </div>
-
-
-                    <p/>
-                    <p/>
-
                     <br></br>
 
-
-                    <div th:if="${profile.account.username} == ${currentUser.username}">
+                    <div th:if="${galleryBelongsToLoggedInUser}">
 
                         <div class="card bg-light mb-3" style="width: 95%; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)" >
                             <div class="card-body"></div>
-
                             <div style="padding:20px;">
 
                                 <div th:if="${photoGalleryFull} == true">
-                                    <h6 style="font-family: 'Times New Roman'">Harmi, kuvagalleriasi on jo täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvistasi</h6>
+                                    <h4 style="font-family: 'Times New Roman'">Kuvagalleriasi on täynnä! Jos haluat lisätä uuden kuvan, poista ensin jokin kuvista</h4>
                                 </div>
 
                                 <div th:if="${photoGalleryFull} == false">
@@ -210,15 +201,6 @@
                     </div>
                 </div>
             </div>
-            <br/>
-
-
-            <p/>
-            <p/>
-
-
-            </div>
-
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
