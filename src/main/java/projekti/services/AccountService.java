@@ -38,7 +38,6 @@ public class AccountService {
     public void saveAccount(Account account) {
 
         accountRepository.save(account);
-        //   accountRepository.flush();
     }
 
     public Account getCurrentUser() {

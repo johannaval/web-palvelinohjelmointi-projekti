@@ -20,7 +20,6 @@ public class MessageLikeService {
 
     public List getMessageLikesByProfiles(Message message, Profile profile) {
 
-        //käyttääkö tätä edes mikää
         List<MessageLike> likes = messageLikeRepository.findByProfileAndMessage(profile, message);
 
         return likes;

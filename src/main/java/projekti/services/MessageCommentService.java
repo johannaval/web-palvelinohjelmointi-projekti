@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projekti.entities.Message;
 import projekti.entities.MessageComment;
-import projekti.entities.Profile;
 import projekti.repositories.MessageCommentRepository;
 import projekti.repositories.ProfileRepository;
 
@@ -19,7 +18,6 @@ public class MessageCommentService {
     @Autowired
     private MessageCommentRepository messageCommentRepository;
 
- 
     public List getMessageCommentsByMessage(Message message) {
 
         List<MessageComment> comments = messageCommentRepository.findByMessage(message);

@@ -1,12 +1,7 @@
 package projekti;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import javax.transaction.Transactional;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +12,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import projekti.services.AccountService;
-import projekti.services.FollowService;
-import projekti.services.MessageCommentService;
-import projekti.services.MessageLikeService;
-import projekti.services.MessageService;
-import projekti.services.PhotoService;
-import projekti.services.ProfileService;
+
 
 @Transactional
 @ActiveProfiles("test")
@@ -40,27 +27,6 @@ import projekti.services.ProfileService;
 public class MockMvcTest {
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private ProfileService profileService;
-
-    @Autowired
-    private FollowService followService;
-
-    @Autowired
-    private MessageService messageService;
-
-    @Autowired
-    private MessageLikeService messageLikeService;
-
-    @Autowired
-    private MessageCommentService messageCommentService;
-
-    @Autowired
-    private PhotoService photoService;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -69,15 +35,13 @@ public class MockMvcTest {
     private ObjectMapper mapper;
 
     @Test
-    public void loginAndRegistrationsReturnsStatusSuccessful() throws Exception {
-        mockMvc.perform(get("/login")).andExpect(status().is2xxSuccessful());
-        mockMvc.perform(get("/registrations")).andExpect(status().is2xxSuccessful());
+    public void loginAndRegistrationsReturnsStatusOk() throws Exception {
+        mockMvc.perform(get("/login")).andExpect(status().isOk());
+        mockMvc.perform(get("/registration")).andExpect(status().isOk());
     }
 
     @Test
-    public void loginAndRegistrationsReturnsStatusOk() throws Exception {
-        mockMvc.perform(get("/login")).andExpect(status().isOk());
-        mockMvc.perform(get("/registrations")).andExpect(status().isOk());
-        System.out.println("");
+    public void indexReturnRedirectionWhenNotLoggedIn() throws Exception {
+        mockMvc.perform(get("/index")).andExpect(status().is3xxRedirection());
     }
 }

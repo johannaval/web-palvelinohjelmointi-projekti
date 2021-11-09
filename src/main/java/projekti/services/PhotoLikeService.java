@@ -1,14 +1,11 @@
 package projekti.services;
 
-import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import projekti.entities.Message;
 import projekti.entities.Photo;
 import projekti.entities.PhotoLike;
 import projekti.entities.Profile;
-import projekti.repositories.MessageRepository;
 import projekti.repositories.PhotoLikeRepository;
 import projekti.repositories.ProfileRepository;
 
@@ -43,7 +40,6 @@ public class PhotoLikeService {
 
     public void save(PhotoLike photoLike) {
 
-        System.out.println("täällä");
         photoLikeRepository.save(photoLike);
     }
 

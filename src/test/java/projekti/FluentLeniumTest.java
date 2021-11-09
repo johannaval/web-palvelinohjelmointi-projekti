@@ -1,12 +1,10 @@
 package projekti;
 
 import java.util.concurrent.TimeUnit;
-import org.fluentlenium.core.annotation.PageUrl;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.support.FindBy;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -27,14 +25,14 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
     @Before
     public void addUsers() {
 
-        goTo("http://localhost:" + port + "/registrations");
+        goTo("http://localhost:" + port + "/registration");
         find("#username").fill().with("tero");
         find("#name").fill().with("tero");
         find("#profileName").fill().with("tero");
         find("#password").fill().with("tero");
         find("form").first().submit();
 
-        goTo("http://localhost:" + port + "/registrations");
+        goTo("http://localhost:" + port + "/registration");
         find("#username").fill().with("tiina");
         find("#name").fill().with("tiina");
         find("#profileName").fill().with("tiina");
@@ -45,7 +43,7 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
     @Test
     public void userCanRegister() {
 
-        goTo("http://localhost:" + port + "/registrations");
+        goTo("http://localhost:" + port + "/registration");
 
         assertTrue(pageSource().contains("Rekisteröidy"));
         find("#name").fill().with("Tero Testaaja");
@@ -56,11 +54,11 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
 
         assertTrue(pageSource().contains("Kirjaudu sisään"));
     }
-
+    
     @Test
     public void userCanNotRegisterWithTooShortValues() throws InterruptedException {
 
-        goTo("http://localhost:" + port + "/registrations");
+        goTo("http://localhost:" + port + "/registration");
 
         assertTrue(pageSource().contains("Rekisteröidy"));
         find("#name").fill().with("t");
@@ -98,10 +96,10 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
 
         String nimi = "tero";
         assertTrue(pageSource().contains(nimi));
-        assertTrue(pageSource().contains("hauskaa että olet täällä taas!"));
+        assertTrue(pageSource().contains("hauskaa että olet täällä!"));
     }
 
-    /*
+    
     @Test
     public void userCanNotLogInWithWrongUsername() throws InterruptedException {
 
@@ -127,7 +125,7 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
         TimeUnit.MILLISECONDS.sleep(200);
         assertTrue(pageSource().contains("Käyttäjänimi tai salasana on väärin"));
     }
-     */
+     
     @Test
     public void loggedInUserCanSendMessage() throws InterruptedException {
 
@@ -138,7 +136,7 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
         find("form").first().submit();
         TimeUnit.MILLISECONDS.sleep(100);
         
-        assertTrue(pageSource().contains("hauskaa että olet täällä taas!"));
+        assertTrue(pageSource().contains("hauskaa että olet täällä!"));
         TimeUnit.MILLISECONDS.sleep(100);
 
         find("#exampleFormControlTextarea1").fill().with("Tämä on viesti terolta");
@@ -167,8 +165,6 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
 
         find("#unlike").first().click();
         TimeUnit.MILLISECONDS.sleep(100);
-
-        //   assertTrue(pageSource().contains("Tykkäykset: 0"));
     }
 
     @Test
@@ -184,8 +180,6 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
         TimeUnit.MILLISECONDS.sleep(100);
 
         assertTrue(pageSource().contains("Tervetuloa sinun profiiliin!"));
-        //   assertTrue(pageSource().contains("Seuraajat: (0kpl)"));
-        //   assertTrue(pageSource().contains("Tykkäykset: 0"));
     }
 
     @Test
@@ -218,7 +212,6 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
         TimeUnit.MILLISECONDS.sleep(100);
 
         assertTrue(pageSource().contains("Kirjaudu sisään"));
-
     }
 
     @Test
@@ -245,10 +238,6 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
         TimeUnit.MILLISECONDS.sleep(100);
 
         assertTrue(pageSource().contains("Tervetuloa käyttäjän "));
-        //     assertTrue(pageSource().contains("Tero"));
-
-        //   assertTrue(pageSource().contains("Seuraajat: (0kpl)"));
-        //   assertTrue(pageSource().contains("Tykkäykset: 0"));
     }
 
     @Test
@@ -277,11 +266,6 @@ public class FluentLeniumTest extends org.fluentlenium.adapter.junit.FluentTest 
         
         assertFalse(pageSource().contains("Nimi"));
         assertFalse(pageSource().contains("Seurattu"));
-
-        //   assertTrue(pageSource().contains("Päiväys"));
-        //     assertTrue(pageSource().contains("Tero"));
-        //   assertTrue(pageSource().contains("Seuraajat: (0kpl)"));
-        //   assertTrue(pageSource().contains("Tykkäykset: 0"));
     }
 
     @Test

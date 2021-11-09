@@ -1,9 +1,7 @@
 package projekti.services;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projekti.entities.Profile;
@@ -56,7 +54,6 @@ public class ProfileService {
     public void updateProfile(Profile profile) {
 
         profileRepository.save(profile);
-        //   profileRepository.flush();
     }
 
     public void saveProfile(Account account) {
@@ -72,6 +69,5 @@ public class ProfileService {
         newProfile.setFollowing(following);
 
         profileRepository.save(newProfile);
-        //     profileRepository.flush();
     }
 }

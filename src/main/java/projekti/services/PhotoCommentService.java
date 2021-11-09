@@ -5,13 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import projekti.entities.Message;
 import projekti.entities.Photo;
 import projekti.entities.PhotoComment;
-import projekti.entities.PhotoLike;
 import projekti.entities.Profile;
 import projekti.repositories.PhotoCommentRepository;
-import projekti.repositories.PhotoLikeRepository;
 import projekti.repositories.ProfileRepository;
 
 @Service

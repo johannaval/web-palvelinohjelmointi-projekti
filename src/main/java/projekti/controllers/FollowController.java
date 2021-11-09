@@ -2,16 +2,12 @@ package projekti.controllers;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projekti.entities.Follow;
 import projekti.entities.Profile;
-import projekti.repositories.FollowRepository;
 import projekti.services.AccountService;
 import projekti.services.FollowService;
 import projekti.services.ProfileService;
@@ -42,9 +38,7 @@ public class FollowController {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formatDateTime = following_time.format(formatter);
-
             follow.setTime(formatDateTime);
-
             followService.save(follow);
         }
         return "redirect:/accounts/{profileName}";
@@ -59,8 +53,6 @@ public class FollowController {
 
         Follow follow_to_delete = followService.getFollow(following, follower);
         followService.delete(follow_to_delete);
-        
-        System.out.println("TÄÄLLÄ");
 
         return "redirect:/accounts/{profileName}";
 

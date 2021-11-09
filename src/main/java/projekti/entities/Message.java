@@ -28,8 +28,6 @@ public class Message extends AbstractPersistable<Long> {
     @ManyToOne
     private Profile profile;
 
-    //@NotEmpty
-    //@Column(columnDefinition="TEXT")
     @Size(min = 1, max = 250, message = "Viestissä pitää olla 1-250 merkkiä")
     private String content;
 

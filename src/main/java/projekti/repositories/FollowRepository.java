@@ -1,9 +1,7 @@
 package projekti.repositories;
 
 import java.util.List;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import projekti.entities.Follow;
 import projekti.entities.Profile;
 

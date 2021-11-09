@@ -1,7 +1,6 @@
 package projekti.controllers;
 
 import projekti.services.AccountService;
-import projekti.entities.Account;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +25,7 @@ public class AccountController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    
     @GetMapping("/login")
     public String loginView() {
 
@@ -40,13 +40,6 @@ public class AccountController {
         return "login_form";
     }
 
-    /* // mikään ei käytä tätä jos otan sen all account pois?
-    @GetMapping("/accounts")
-    public String list(Model model) {
-
-        model.addAttribute("accounts", accountService.getAllAccounts());
-        return "accounts";
-    } */
     @GetMapping("/registration")
     public String registrationView(@ModelAttribute Account account) {
 

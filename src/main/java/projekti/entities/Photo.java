@@ -1,19 +1,12 @@
 package projekti.entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
-import java.util.List;
 import org.hibernate.annotations.Type;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,8 +14,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Entity
 public class Photo extends AbstractPersistable<Long> {
 
-    // @Lob
-    // @Basic(fetch = FetchType.LAZY)
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] content;
 

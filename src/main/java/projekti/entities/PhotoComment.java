@@ -24,7 +24,5 @@ public class PhotoComment extends AbstractPersistable<Long> {
 
     private String dateString;
 
-    //@NotEmpty
-    //@Column(columnDefinition="TEXT")
     private String content;
 }

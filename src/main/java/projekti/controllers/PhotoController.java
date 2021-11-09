@@ -45,10 +45,6 @@ public class PhotoController {
     @GetMapping("/accounts/{profileName}/photos")
     public String viewPhotos(@PathVariable String profileName, Model model) {
 
-        //       model.addAttribute("isProfilePhoto", false);
-        //       model.addAttribute("profile", profileService.getProfileByProfileName(profileName));
-        //     model.addAttribute("currentUser", accountService.getCurrentUser());
-        //       model.addAttribute("photoGalleryFull", false);
         Integer firstPhoto = 1;
         Integer numberOfImages = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).size();
 

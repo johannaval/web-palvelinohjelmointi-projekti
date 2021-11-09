@@ -2,7 +2,7 @@
 
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
         <head>
-            <title>twitter2</title>
+            <title>Turinat&Pulinat</title>
             <meta charset="UTF-8" /> 
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">                    
         </head>
@@ -44,7 +44,7 @@
                     <div class="card bg-light mb-3" style="width: 95%; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)" >
                         <div class="card-body">
 
-                            <h1 style="font-family: 'Times New Roman'">Hei  <span th:text="${currentUser.account.name}">nimi</span>, hauskaa että olet täällä taas! </h1>
+                            <h1 style="font-family: 'Times New Roman'">Hei  <span th:text="${currentUser.account.name}">nimi</span>, hauskaa että olet täällä! </h1>
                             <p style="font-family:'Courier New'">Tämän sovelluksen avulla pysyt perillä siitä, mitä ystäväsi puuhaavat! </p>
 
                             <div th:if="${profilePhoto} != null">

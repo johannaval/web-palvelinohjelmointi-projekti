@@ -1,6 +1,5 @@
 package projekti;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -159,7 +158,6 @@ public class ProjektiTest {
 
         assertEquals(1, messageService.getMessagesByProfiles(profiles).size());
         assertTrue(messageService.getMessagesByProfiles(profiles).get(0).equals(message));
-
     }
 
     @Transactional
@@ -183,7 +181,6 @@ public class ProjektiTest {
         messageLikeService.save(like);
         assertEquals(1, messageLikeService.getMessageLikesByMessage(message).size());
         assertTrue(messageLikeService.getMessageLikesByMessage(message).contains(like));
-
     }
 
     @Transactional

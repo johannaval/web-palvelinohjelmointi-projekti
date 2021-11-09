@@ -10,5 +10,4 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     public List<Message> findByProfileIn(List<Profile> profiles);
 
     public List<Message> findAllById(Long id);
-
 }

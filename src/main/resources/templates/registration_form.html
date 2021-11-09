@@ -2,7 +2,7 @@
 
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
         <head>
-            <title>twitter2</title>
+            <title>Turinat&Pulinat</title>
             <meta charset="UTF-8" /> 
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">                    
         </head>
@@ -33,13 +33,14 @@
                             <div class="card-body p-4 p-sm-5">
 
                                 <h2 style="font-family: 'Times New Roman'">Luo käyttäjä</h2>
-                                <p style="font-family:'Courier New'">This is another paragraph.</p> 
+                                <p style="font-family:'Courier New'">Tykkäätkö rupatella ja löpistä, turista ja pulista? <br/> Siinä tapauksessa tämä sovellus on <b> sinulle</b>! </p>
+
 
                                 <div class="card bg-light mb-3" style="min-width: 35rem;">
                                     <div class="card-body">
 
                                         <form action="#" th:action="@{/registration}" th:object="${account}" method="POST">
-                                            
+
                                             <tr>
                                                 <h5 class="card-title" style="font-family: 'Times New Roman'">Nimi:</h5>
                                                 <input type="text" id="name" th:field="*{name}" />
@@ -65,7 +66,7 @@
                                                 <input type="password" id="password" th:field="*{password}" />
                                                 <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Virheviesti</td>
                                             </tr>
-                                           
+
                                             <br></br>
 
                                             <td><input name="submit" class="btn btn-dark" type="submit" value="Rekisteröidy"/></td>
