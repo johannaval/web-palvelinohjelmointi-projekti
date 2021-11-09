@@ -53,7 +53,7 @@ public class PhotoLikeService {
     }
 
     public void deleteLike(PhotoLike like) {
-        
+
         photoLikeRepository.delete(like);
     }
 }

@@ -15,7 +15,7 @@ import projekti.services.ProfileService;
 
 @Controller
 public class AccountController {
-
+    
     @Autowired
     private AccountService accountService;
 
@@ -25,7 +25,6 @@ public class AccountController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    
     @GetMapping("/login")
     public String loginView() {
 
@@ -34,7 +33,7 @@ public class AccountController {
 
     @GetMapping("/login/")
     public String loginErrorView(Model model) {
-
+        
         model.addAttribute("error_message", "Käyttäjänimi tai salasana on väärin");
 
         return "login_form";

@@ -11,7 +11,7 @@ import projekti.repositories.ProfileRepository;
 
 @Service
 public class MessageLikeService {
- 
+
     @Autowired
     private ProfileRepository profileRepository;
 
@@ -44,7 +44,7 @@ public class MessageLikeService {
     }
 
     public void deleteLike(MessageLike like) {
-        
+
         messageLikeRepository.delete(like);
     }
 }

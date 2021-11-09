@@ -53,10 +53,6 @@ public class MessageService {
         likes.add(messageLike);
         message.setLikes(likes);
         
-        for (int i = 0; i<message.getLikes().size();i++){
-            System.out.println(i+":"+message.getLikes().get(i));
-        }
-
         messageRepository.save(message);
     }
 }

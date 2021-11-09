@@ -26,7 +26,6 @@ public class MessageCommentService {
         if (comments.size() > 10) {
             return comments.subList(0, 10);
         }
-
         return comments;
     }
 

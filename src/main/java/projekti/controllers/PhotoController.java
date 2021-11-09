@@ -133,7 +133,6 @@ public class PhotoController {
             model.addAttribute("error_message", "Et voi ladata tyhjää tiedostoa!");
 
         } else {
-
             Photo newPhoto = new Photo();
             newPhoto.setContent(file.getBytes());
             newPhoto.setNumber(numberOfImages + 1);
@@ -141,7 +140,6 @@ public class PhotoController {
             newPhoto.setCaption(caption);
             newPhoto.setProfilePhoto(false);
             photoService.save(newPhoto);
-
             numberOfImages = numberOfImages + 1;
         }
         return "redirect:/accounts/" + profileName + "/photos/" + numberOfImages;

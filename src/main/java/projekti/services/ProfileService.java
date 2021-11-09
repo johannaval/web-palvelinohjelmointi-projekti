@@ -21,8 +21,7 @@ public class ProfileService {
     public Profile getProfileByProfileName(String profileName) {
         return profileRepository.findByProfileName(profileName);
     }
-    
-    
+
     public List findByProfileNameContains(String profileName) {
 
         List<Profile> profiles = profileRepository.findAll();
@@ -37,7 +36,7 @@ public class ProfileService {
     }
 
     public Profile findByProfileName(String profileName) {
-        
+
         return profileRepository.findByProfileName(profileName);
     }
 
