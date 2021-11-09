@@ -124,6 +124,7 @@ public class PhotoController {
         return photoService.getPhotoFromProfile(profile, number).getContent();
     }
 
+    @Transactional
     @PostMapping("/accounts/{profileName}/photos")
     public String addPhoto(Model model, @PathVariable String profileName, @RequestParam String caption, @RequestParam("file") MultipartFile file) throws IOException {
 
@@ -134,18 +135,25 @@ public class PhotoController {
             model.addAttribute("error_message", "Et voi ladata tyhjää tiedostoa!");
 
         } else {
-            Photo newPhoto = new Photo();
-            newPhoto.setContent(file.getBytes());
-            newPhoto.setNumber(numberOfImages + 1);
-            newPhoto.setProfile(profileService.findByProfileName(profileName));
-            newPhoto.setCaption(caption);
-            newPhoto.setProfilePhoto(false);
-            photoService.save(newPhoto);
-            numberOfImages = numberOfImages + 1;
+
+            if (file.getBytes().length < 1048576) {
+                Photo newPhoto = new Photo();
+                newPhoto.setContent(file.getBytes());
+                newPhoto.setNumber(numberOfImages + 1);
+                newPhoto.setProfile(profileService.findByProfileName(profileName));
+                newPhoto.setCaption(caption);
+                newPhoto.setProfilePhoto(false);
+                photoService.save(newPhoto);
+                numberOfImages = numberOfImages + 1;
+                
+            } else {
+                model.addAttribute("error_message", "Kuva on liian suuri!");
+            }
         }
         return "redirect:/accounts/" + profileName + "/photos/" + numberOfImages;
     }
 
+    @Transactional
     @PostMapping("/accounts/{profileName}/photos/{number}/setProfilePhoto")
     public String setProfilePhoto(Model model, @PathVariable String profileName, @PathVariable Integer number) {
 
@@ -228,6 +236,7 @@ public class PhotoController {
         return "redirect:/accounts/" + profileName + "/photos/" + number;
     }
 
+    @Transactional
     @PostMapping("/accounts/{profileName}/photos/{number}/comment")
     public String addComment(@PathVariable String profileName, @PathVariable Integer number, String comment) {
 

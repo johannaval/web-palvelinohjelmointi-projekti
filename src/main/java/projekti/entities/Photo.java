@@ -1,6 +1,10 @@
 package projekti.entities;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import static javax.persistence.FetchType.LAZY;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +18,10 @@ import org.hibernate.annotations.Type;
 @Entity
 public class Photo extends AbstractPersistable<Long> {
 
-    @Type(type = "org.hibernate.type.BinaryType")
+    //lokaalia testausta varten ->
+    //@Lob
+    //@Basic(fetch = FetchType.LAZY) <-
+    @Type(type = "org.hibernate.type.BinaryType") // Herokua varten
     private byte[] content;
 
     @ManyToOne

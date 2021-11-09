@@ -183,6 +183,7 @@
                                 <div th:if="${photoGalleryFull} == false">
 
                                     <h3 class="card-title"><p style="font-family: 'Times New Roman'"> Lisää uusi kuva:</p></h3>
+                                    <p>Huom! Suurin sallittu kuvakoko: 1.048576 MB</p>
 
                                     <form method="POST" th:action="@{/accounts/{profileName}/photos(profileName=${profile.profileName})}" enctype="multipart/form-data">
                                         <input type="file" class="btn btn-light" name="file" id="file"/>
