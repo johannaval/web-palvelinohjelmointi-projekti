@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import projekti.entities.Account;
 import projekti.services.ProfileService;
 
@@ -27,19 +26,13 @@ public class AccountController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @GetMapping("/registrations")
-    public String registrationView(@ModelAttribute Account account) {
-
-        return "registration_form";
-    }
-
     @GetMapping("/login")
     public String loginView() {
 
         return "login_form";
     }
 
-    @GetMapping("/login_error")
+    @GetMapping("/login/")
     public String loginErrorView(Model model) {
 
         model.addAttribute("error_message", "Käyttäjänimi tai salasana on väärin");
@@ -47,31 +40,36 @@ public class AccountController {
         return "login_form";
     }
 
+    /* // mikään ei käytä tätä jos otan sen all account pois?
     @GetMapping("/accounts")
     public String list(Model model) {
 
         model.addAttribute("accounts", accountService.getAllAccounts());
         return "accounts";
+    } */
+    @GetMapping("/registration")
+    public String registrationView(@ModelAttribute Account account) {
+
+        return "registration_form";
     }
 
-    @PostMapping("/registrations")
+    @PostMapping("/registration")
     public String register(@Valid @ModelAttribute Account account, BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()) {
-            return "registration_form";
-        }
-        if (accountService.getAccountByUsername(account.getUsername()) != null) {
+        Account usernameAlreadyInUse = accountService.getAccountByUsername(account.getUsername());
+        Account profileNameAlreadyInUse = accountService.getAccountByProfileName(account.getProfileName());
 
-            model.addAttribute("error_message", "Voi rähmä, käyttäjänimi on jo varattu!");
-            return "registration_form";
-        }
-        if (accountService.getAccountByProfileName(account.getProfileName()) != null) {
+        if (usernameAlreadyInUse != null || profileNameAlreadyInUse != null || bindingResult.hasErrors()) {
 
-            model.addAttribute("error_message", "Voi rähmä, profiilin tunnus on jo varattu!");
+            if (usernameAlreadyInUse != null) {
+                model.addAttribute("error_message_username", "Tämä käyttäjänimi on jo varattu");
+            }
+            if (profileNameAlreadyInUse != null) {
+                model.addAttribute("error_message_profileName", "Tämä profiilin tunnus on jo varattu");
+            }
             return "registration_form";
         }
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        
         accountService.saveAccount(account);
         profileService.saveProfile(account);
 

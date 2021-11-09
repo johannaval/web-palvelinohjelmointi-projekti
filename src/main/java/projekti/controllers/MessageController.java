@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import projekti.entities.Account;
 import projekti.entities.Follow;
 import projekti.entities.Message;
@@ -57,32 +56,12 @@ public class MessageController {
     public String postMessage(@Valid @ModelAttribute Message message, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-
-            Profile currentUser = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
-            List<Follow> followedProfiles = followService.findByFollower(currentUser);
-            List<Profile> profiles = new ArrayList<>();
-
-            profiles.add(currentUser);
-
-            Photo profilePhoto = photoService.getProfilePhoto(currentUser);
-
-            if (profilePhoto != null) {
-                model.addAttribute("profilePhoto", profilePhoto.getNumber());
-            }
-
-            for (Follow follow : followedProfiles) {
-                profiles.add(follow.getFollowing());
-            }
-
-            model.addAttribute("messages", messageService.getMessagesByProfiles(profiles));
-            model.addAttribute("currentUser", currentUser);
-
-            return "index";
+            
+            return "redirect:/index";
         }
 
         Profile currentUser = profileService.findByProfileName(accountService.getCurrentUser().getProfileName());
 
-        //   Message message = new Message();
         message.setContent(message.getContent());
         message.setProfile(currentUser);
         message.setLikeCount(0);
@@ -208,12 +187,12 @@ public class MessageController {
         Profile currentUserProfile = profileService.findByProfileName(currentUser.getProfileName());
 
         List<MessageLike> likes = messageLikeService.getMessageLikesByMessage(message);
-        
+
         for (MessageLike like : likes) {
             if (like.getProfile().getProfileName().equals(currentUserProfile.getProfileName())) {
                 messageLikeService.deleteLike(like);
                 System.out.println("TYKKÄÄJÄ LÖYTYI, POISTETAAN!!!!!");
-                message.setLikeCount(message.getLikeCount()-1);
+                message.setLikeCount(message.getLikeCount() - 1);
                 messageService.save(message);
             }
         }

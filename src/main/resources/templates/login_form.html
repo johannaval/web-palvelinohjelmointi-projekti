@@ -16,7 +16,7 @@
                             <a class="nav-link" th:href="@{/login}">Kirjaudu sisään <span class="sr-only">(current)</span></a>
                         </li>   
                         <li class="nav-item px-3">
-                            <a class="nav-link" th:href="@{/registrations}">Rekisteröidy </a>
+                            <a class="nav-link" th:href="@{/registration}">Rekisteröidy </a>
                         </li>
                     </ul>
 
@@ -24,15 +24,13 @@
             </nav>   
         </body>
 
-
-
         <body background="https://images.unsplash.com/photo-1518655048521-f130df041f66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" style="background-size: cover; background-attachment: fixed;">  
-
             <div class="container">
                 <div class="row">
                     <div class="col-sm-3 col-md-4 col-lg-7 mx-auto">
                         <div class="card border-0 shadow rounded-3 my-5" style="box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)">
                             <div class="card-body p-4 p-sm-5">
+
                                 <h2 style="font-family: 'Times New Roman'">Kirjaudu sisään</h2>
                                 <p style="font-family:'Courier New'">This is another paragraph.</p> 
 
@@ -41,29 +39,29 @@
 
                                         <form action="#" th:action="@{/login}" method="POST">
 
-                                            <h5 class="card-title" style="font-family:'Times New Roman'">Käyttäjänimi:</h5>
-                                            <td><input id="username" type="text" name="username" value=""/></td>
-                                            <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+                                            <tr>
+                                                <h5 class="card-title" style="font-family:'Times New Roman'">Käyttäjänimi:</h5>
+                                                <input id="username" type="text" name="username" value=""/>
+                                                <td th:if="${error_message}!=null" th:text="${error_message}"></td>
+                                            </tr>
 
-                                            <h5 class="card-title" style="font-family: 'Times New Roman'">Salasana:</h5>
-                                            <td><input id="password" type="password" name="password"/></td>
-
+                                            <tr>
+                                                <h5 class="card-title" style="font-family: 'Times New Roman'">Salasana:</h5>
+                                                <input id="password" type="password" name="password"/>
+                                            </tr>
+                                            
                                             <br></br>
 
                                             <td><input name="submit" class="btn btn-dark" type="submit" value="Kirjaudu"/></td>
                                         </form>
+
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

@@ -39,14 +39,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/h2-console", "/h2-console/**").permitAll()
-                .antMatchers("/registrations/**").permitAll()
+                .antMatchers("/registration/**").permitAll()
                                 
                 .anyRequest().authenticated().and()
                 .formLogin()
                 .loginPage("/login_form.html")
                 .loginProcessingUrl("/login")
                 .permitAll().defaultSuccessUrl("/index", true)
-                .failureUrl("/login_error").and()
+                .failureUrl("/login/").and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .invalidateHttpSession(true)
