@@ -15,6 +15,7 @@ public class PhotoService {
 
     public void save(Photo photo) {
         photoRepository.save(photo);
+        photoRepository.flush();
     }
 
     public Photo getOne(Long id) {

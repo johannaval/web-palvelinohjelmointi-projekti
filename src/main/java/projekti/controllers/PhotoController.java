@@ -166,8 +166,9 @@ public class PhotoController {
     @PostMapping("/accounts/{profileName}/photos/{number}/deletePhoto")
     public String deletePhoto(Model model, @PathVariable String profileName, @PathVariable Integer number) {
 
-        Photo photo = photoService.getPhotoFromProfile(profileService.getProfileByProfileName(profileName), number);
         Profile profile = profileService.findByProfileName(profileName);
+        Photo photo = photoService.getPhotoFromProfile(profile, number);
+        
         photoLikeService.deleteLikes(photo, profile);
         photoCommentService.deleteComments(photo, profile);
         photoService.delete(photo);
@@ -195,7 +196,6 @@ public class PhotoController {
         PhotoLike photoLike = new PhotoLike();
         photoLike.setPhoto(photo);
         photoLike.setProfile(currentUserProfile);
-
         photoLikeService.save(photoLike);
 
         return "redirect:/accounts/" + profileName + "/photos/" + number;
