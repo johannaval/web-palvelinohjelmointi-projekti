@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -150,9 +151,10 @@ public class PhotoController {
 
         Photo photo = photoService.getPhotoFromProfile(profileService.getProfileByProfileName(profileName), number);
         Integer numberOfImages = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).size();
+        List<Photo> photos = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName));
 
         for (int i = 1; i <= numberOfImages; i++) {
-            Photo p = (Photo) photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).get(i - 1);
+            Photo p = photos.get(i - 1);
             if (i == number) {
                 p.setProfilePhoto(true);
             } else {
@@ -163,20 +165,21 @@ public class PhotoController {
         return "redirect:/accounts/" + profileName + "/photos/" + number;
     }
 
+    @Transactional
     @PostMapping("/accounts/{profileName}/photos/{number}/deletePhoto")
     public String deletePhoto(Model model, @PathVariable String profileName, @PathVariable Integer number) {
 
         Profile profile = profileService.findByProfileName(profileName);
         Photo photo = photoService.getPhotoFromProfile(profile, number);
-        
         photoLikeService.deleteLikes(photo, profile);
         photoCommentService.deleteComments(photo, profile);
         photoService.delete(photo);
 
         Integer numberOfImages = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).size();
+        List<Photo> photos = photoService.getPhotosFromProfile(profileService.findByProfileName(profileName));
 
         for (int i = 1; i <= numberOfImages; i++) {
-            Photo p = (Photo) photoService.getPhotosFromProfile(profileService.findByProfileName(profileName)).get(i - 1);
+            Photo p = photos.get(i - 1);
             p.setNumber(i);
             photoService.save(p);
         }
@@ -196,6 +199,7 @@ public class PhotoController {
         PhotoLike photoLike = new PhotoLike();
         photoLike.setPhoto(photo);
         photoLike.setProfile(currentUserProfile);
+
         photoLikeService.save(photoLike);
 
         return "redirect:/accounts/" + profileName + "/photos/" + number;

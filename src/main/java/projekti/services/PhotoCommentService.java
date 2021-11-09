@@ -44,6 +44,8 @@ public class PhotoCommentService {
     public void save(PhotoComment photoComment) {
 
         photoCommentRepository.save(photoComment);
+        photoCommentRepository.flush();
+
     }
 
     public void deleteComments(Photo photo, Profile profile) {
@@ -52,6 +54,7 @@ public class PhotoCommentService {
 
         for (PhotoComment comment : comments) {
             photoCommentRepository.delete(comment);
+            photoCommentRepository.flush();
         }
     }
 }

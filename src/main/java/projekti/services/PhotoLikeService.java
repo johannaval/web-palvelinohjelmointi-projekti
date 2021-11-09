@@ -41,6 +41,8 @@ public class PhotoLikeService {
     public void save(PhotoLike photoLike) {
 
         photoLikeRepository.save(photoLike);
+        photoLikeRepository.flush();
+
     }
 
     public void deleteLikes(Photo photo, Profile profile) {
@@ -49,11 +51,14 @@ public class PhotoLikeService {
 
         for (PhotoLike like : likes) {
             photoLikeRepository.delete(like);
+            photoLikeRepository.flush();
         }
     }
 
     public void deleteLike(PhotoLike like) {
 
         photoLikeRepository.delete(like);
+        photoLikeRepository.flush();
+
     }
 }

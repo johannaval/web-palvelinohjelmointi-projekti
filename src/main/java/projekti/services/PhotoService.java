@@ -32,6 +32,7 @@ public class PhotoService {
 
     public void delete(Photo photo) {
         photoRepository.delete(photo);
+        photoRepository.flush();
     }
 
     public Photo getProfilePhoto(Profile profile) {
