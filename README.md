@@ -1,4 +1,4 @@
-:electric_plug: ## Web-palvelinohjelmointi-projekti :penguin:
+## :electric_plug: Web-palvelinohjelmointi-projekti :penguin:
 
 Sovellus mukailee niin kutsuttua vanhan kansan Twittereria, eli sovellusta, jossa voidaan kirjoittaa viestejä, seurata eri käyttäjiä ja jakaa kuvia.
 Voit luoda uuden käyttäjän, tai tarkastella sovellusta testikäyttäjillä.
